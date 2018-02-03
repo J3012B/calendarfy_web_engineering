@@ -16,8 +16,8 @@
 	<!-- Javascript Code -->
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="assets/js/jquery-dateFormat.min.js"></script>
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWH4gLcvWyjV_3Wtxesom93_RNOm8K9L4&libraries=places"></script>
-	<script type="text/javascript" src="assets/js/index.js"></script>
+<!-- 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWH4gLcvWyjV_3Wtxesom93_RNOm8K9L4&libraries=places"></script>
+ -->	<script type="text/javascript" src="assets/js/index.js"></script>
 </head>
 <body>
 	<!-- Nav Bar -->
@@ -38,16 +38,38 @@
 		<!-- Calendar View -->
 		<div id="body-calendar">
 			<div id="calendar" class="shadow">
-				<div id="calendar-head">
-					<a href="">
-						<i class="material-icons md-dark md-36">keyboard_arrow_left</i>
+				<div class="unselectable" id="calendar-head">
+					<a>
+						<i class="material-icons md-dark md-36 unselectable">keyboard_arrow_left</i>
 					</a>
-					<div>
-						January 2018
-					</div>
-					<a href="">
-						<i class="material-icons md-dark md-36">keyboard_arrow_right</i>
+					<div>January 2018</div>
+					<a>
+						<i class="material-icons md-dark md-36 unselectable">keyboard_arrow_right</i>
 					</a>
+				</div>
+				<hr>
+				<div id="calendar-body">
+					<table>
+						<th>
+							<td>M</td>
+							<td>T</td>
+							<td>W</td>
+							<td>T</td>
+							<td>F</td>
+							<td>S</td>
+							<td>S</td>
+						</th>
+						<tr>
+							<td>1</td>
+							<td>2</td>
+							<td>3</td>
+						</tr>
+						<tr>
+							<td>4</td>
+							<td>5</td>
+							<td>6</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 		</div>
@@ -95,28 +117,6 @@
 			</div>
 		</div>
 
-		<!--
-		<div class="cell shadow">
-			<table class="cell-table">
-				<tr>
-					<td>
-						<div class="cell-category"></div>
-					</td>
-					<td class="cell-text-td">
-						<div class="cell-text-container">
-							<p class="cell-title"><span class="cell-date"></span></p>
-							<p class="cell-date"></p>
-						</div>
-
-						
-					</td>
-					<td class="cell-img-container" align="center" valign="middle">
-						<img class="cell-img" src="https://www.koffer-kopf.de/themes/Frontend/Responsive/frontend/_public/src/img/no-picture.jpg">
-					</td>
-				</tr>
-			</table>
-		</div>
-		-->
 
 
 	</template>

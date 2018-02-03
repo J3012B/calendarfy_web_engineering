@@ -14,6 +14,7 @@ var url = "http://www.dhbw.ramonbisswanger.de/calendar/3329493";
 */
 
 var entries = [];
+var currentMonth = new Date();
 
 
 /*
@@ -96,11 +97,33 @@ function loadCells(entries) {
 	*/
 
 	
-
 	}
 
 	cells = document.querySelectorAll(".cell");
 
+}
+
+function updateCalendarMonthLbl() {
+	console.log("Current Month is: " + currentMonth);
+
+	var calendarHead = document.querySelector("#calendar-head");
+	var monthLbl = calendarHead.querySelector("div");
+
+	monthLbl.innerText = $.format.date(currentMonth, "MMMM yyyy");;
+}
+
+
+/*
+	Button Events
+*/
+
+function decreaseMonth() {
+	currentMonth = new Date(currentMonth.setMonth(new Date(currentMonth.setDate(1)).getMonth() - 1));
+	updateCalendarMonthLbl();
+}
+function increaseMonth() {
+	currentMonth = new Date(currentMonth.setMonth(new Date(currentMonth.setDate(1)).getMonth() + 1));
+	updateCalendarMonthLbl();
 }
 
 
@@ -164,6 +187,7 @@ function deleteEvent(id) {
 		if (request.status >= 200 && request.status < 300) {
 			console.log("Deleted event with id=" + id + " successfully.");
 			console.log(JSON.parse(request.responseText));
+			location.reload(true);
 		} else {
 			console.warn(request.statusText, request.responseText);
 		}
@@ -190,9 +214,16 @@ function deleteEvent(id) {
 */
 
 $(document).ready(function() {
+	// List
 	$list = $("#list");
 
+	// Calendar
+	calendarBtns = document.querySelectorAll("#calendar-head a");
+	calendarBtns[0].addEventListener("click", function() { decreaseMonth() });
+	calendarBtns[1].addEventListener("click", function() { increaseMonth() });
 
-	loadEvents();
+
+	loadEvents(); // GET Event Data & create list cells
+	updateCalendarMonthLbl();
 
 });

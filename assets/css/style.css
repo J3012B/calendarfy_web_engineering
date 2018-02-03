@@ -139,18 +139,38 @@ body {
 */
 
 #calendar {
-	background: #EDBB99;
-	height: 100px;
+	/*background: #EDBB99;*/
+	background: white;
 }
 
 #calendar-head {
 	background: white;
-
+	overflow: hidden;
+	text-align: center;
+	vertical-align: middle;
 }
 
-#calendar-head a, #calendar-head div {
+#calendar-head div {
+	display: inline-block;
+	height: 36px;
+	line-height: 36px;
+}
+#calendar-head a {
 	float: left;
 	display: inline-block;
+}
+#calendar-head a:last-of-type {
+	float: right;
+}
+#calendar-head a i: hover {
+	background: lightgray;
+} 
+
+#calendar-body {
+	background: white;
+}
+#calendar-body table {
+	width: 100%;
 }
 
 
@@ -180,12 +200,24 @@ body {
 */
 
 
+/* adds shadow to element */
 .shadow {
 	box-shadow: 0px 4px 10px darkgray;
 }
 
+/* makes elements unselectable */
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 a {
 	text-decoration: none;
+	cursor: pointer;
 }
 
 i {
