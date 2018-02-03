@@ -63,43 +63,8 @@ function loadCells(entries) {
 
 		var cell = cellTmpl.querySelector(".cell");
 		cells.push(cell);
-		
+
 		$list.append(cellTmpl);
-
-
-		/*
-		entryCellTmpl.querySelector(".cell-title").innerText = entry.title;
-		entryCellTmpl.querySelector(".cell-img").src = "https://www.st-christophers.co.uk/__data/assets/image/0005/462614/prague_hero.jpg"
-		
-		// Date
-		var startTime = convertDateString(entry.start + ":00Z", "HH:mm");
-		var endTime = convertDateString(entry.end + ":00Z", "HH:mm");
-		entryCellTmpl.querySelector(".cell-date").innerText = startTime + " - " + endTime;
-
-		// Add Events
-		var cell = entryCellTmpl.querySelector(".cell");
-
-		cell.onclick = function() {
-			console.log("Clicked on Cell");
-		}
-
-		cell.onmouseover = function() {
-			this.style["background"] = "#F5F5F5";
-		}
-
-		cell.onmouseout = function() {
-			this.style["background"] = "white";
-		}
-
-		cell.onmouseup = function() {
-			this.style["background"] = "white";
-		}
-
-		cell.onmousemove = function() {
-			this.style["background"] = "#F5F5F5";
-		}
-	*/
-
 	
 	}
 
@@ -211,9 +176,8 @@ function deleteEvent(id) {
 	request.open("DELETE", url + "/events/" + id);
 	request.addEventListener("load", function(event) {
 		if (request.status >= 200 && request.status < 300) {
-			console.log("Deleted event with id=" + id + " successfully.");
-			console.log(JSON.parse(request.responseText));
-			location.reload(true);
+			console.log("Deleted event with id " + id + " successfully.");
+			window.location.reload(true);
 		} else {
 			console.warn(request.statusText, request.responseText);
 		}
