@@ -52,14 +52,18 @@ function loadCells(entries) {
 		cellTmpl.querySelector(".cell-time").innerText = startTime + " - " + endTime;
 		cellTmpl.querySelector(".cell-date").innerText = startDate;
 		// Buttons
-		cellTmpl.querySelector(".cell-delete-btn").addEventListener("click", function() {
+		cellTmpl.querySelector(".cell-delete-btn").onclick = function() {
 			var cellIndex = getIndexOfElement(this, ".cell-delete-btn");
 			deleteEvent(entries[cellIndex].id);
-		});
+		};
+		cellTmpl.querySelector(".cell-edit-btn").onclick = function() {
+			openModal(entry);
+		}
 
 
 		var cell = cellTmpl.querySelector(".cell");
 		cells.push(cell);
+		
 		$list.append(cellTmpl);
 
 
@@ -104,12 +108,34 @@ function loadCells(entries) {
 }
 
 function updateCalendarMonthLbl() {
-	console.log("Current Month is: " + currentMonth);
-
-	var calendarHead = document.querySelector("#calendar-head");
-	var monthLbl = calendarHead.querySelector("div");
+	var monthLbl = document.querySelector("#calendar-head div");
 
 	monthLbl.innerText = $.format.date(currentMonth, "MMMM yyyy");;
+}
+
+// Modal
+function prepareModal() {
+	var modal = document.getElementById('modal');
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+	    if (event.target == modal) {
+	        modal.style.display = "none";
+	    }
+	}
+}
+
+function openModal(entry) {
+	var modal = document.getElementById("modal");
+
+
+	if (entry != null) {
+		document.getElementById("modal-title-tf").innerText = entry.title;
+	} else {
+
+	}
+
+	modal.style.display = "block";
 }
 
 
@@ -222,8 +248,12 @@ $(document).ready(function() {
 	calendarBtns[0].addEventListener("click", function() { decreaseMonth() });
 	calendarBtns[1].addEventListener("click", function() { increaseMonth() });
 
+	// Modal View
+	document.getElementById("floating-btn").onclick = function() { openModal(null); }
+
 
 	loadEvents(); // GET Event Data & create list cells
 	updateCalendarMonthLbl();
+	prepareModal();
 
 });
