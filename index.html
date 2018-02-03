@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Calendarfy</title>
+	<meta charset="utf-8">
+
+	<!-- CSS Style -->
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css"></style>
+	<link rel="stylesheet" type="text/css" href="assets/css/material.css">
+
+	<!-- Fonts -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+
+	<!-- Javascript Code -->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="assets/js/jquery-dateFormat.min.js"></script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWH4gLcvWyjV_3Wtxesom93_RNOm8K9L4&libraries=places"></script>
+	<script type="text/javascript" src="assets/js/index.js"></script>
+</head>
+<body>
+	<!-- Nav Bar -->
+	<div id="navbar" class="shadow">
+		<a href="#" id="calendarfy-logo">Calendarfy</a>
+
+	</div>
+
+	<!-- Body -->
+	<div id="body-container">
+		<!-- List View -->
+		<div id="body-list">
+			<div id="list" class="shadow">
+				<!-- Cells come here ... -->
+			</div>
+		</div>	
+
+		<!-- Calendar View -->
+		<div id="body-calendar">
+			<div id="calendar" class="shadow">
+				<div id="calendar-head">
+					<a href="">
+						<i class="material-icons md-dark md-36">keyboard_arrow_left</i>
+					</a>
+					<div>
+						January 2018
+					</div>
+					<a href="">
+						<i class="material-icons md-dark md-36">keyboard_arrow_right</i>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- Floating Button -->
+		<div>
+			<a href="#" class="shadow" id="floating-btn">
+				<i class="material-icons md-48 md-light">add</i>
+			</a>
+		</div>
+
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+	<!-- ******* TEMPLATES ******* -->
+	
+	<!-- Entry Cell -->
+	<template id="cell-template">
+		<div class="cell">
+			<div class="cell-img">
+				<div class="cell-img-content">
+					<div class="cell-title">Title</div>
+					<div class="cell-location">Location</div>
+					<a href="https://www.google.de/maps" target="_blank" class="cell-location-btn">
+						<i class="material-icons md-light">place</i>
+					</a>
+				</div>
+			</div>
+			<div class="cell-text-content">
+				<div class="cell-time">Start - End</div>
+				<div class="cell-date">dd-mm-yyyy</div>
+				<div class="cell-btns">
+					<a href="#"><i class="material-icons md-green cell-delete-btn">delete</i></a>
+					<a href="#"><i class="material-icons md-green cell-edit-btn">mode_edit</i></a>
+				</div>
+			</div>
+		</div>
+
+		<!--
+		<div class="cell shadow">
+			<table class="cell-table">
+				<tr>
+					<td>
+						<div class="cell-category"></div>
+					</td>
+					<td class="cell-text-td">
+						<div class="cell-text-container">
+							<p class="cell-title"><span class="cell-date"></span></p>
+							<p class="cell-date"></p>
+						</div>
+
+						
+					</td>
+					<td class="cell-img-container" align="center" valign="middle">
+						<img class="cell-img" src="https://www.koffer-kopf.de/themes/Frontend/Responsive/frontend/_public/src/img/no-picture.jpg">
+					</td>
+				</tr>
+			</table>
+		</div>
+		-->
+
+
+	</template>
+
+</body>
+</html>
