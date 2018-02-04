@@ -46,9 +46,9 @@ function loadCells(entries) {
 		cellTmpl.querySelector(".cell-location").innerText = entry.location;
 		cellTmpl.querySelector(".cell-location-btn").href = "https://www.google.de/maps/search/?api=1&query=" + entry.location.replace(/ /g,"+"); 
 		// Date
-		var startTime = convertDateString(entry.start, "HH:mm");
-		var startDate = convertDateString(entry.start, "E, MMM d yyyy");
-		var endTime = convertDateString(entry.end, "HH:mm");
+		var startTime = formatDate(entry.start + ":00Z", "HH:mm");
+		var startDate = formatDate(entry.start + ":00Z", "E, MMM d yyyy");
+		var endTime = formatDate(entry.end + ":00Z", "HH:mm");
 		cellTmpl.querySelector(".cell-time").innerText = startTime + " - " + endTime;
 		cellTmpl.querySelector(".cell-date").innerText = startDate;
 		// Buttons
@@ -88,6 +88,34 @@ function prepareModal() {
 	        modal.style.display = "none";
 	    }
 	}
+
+	// Set Date Fields to today
+	prepareDateFields();
+
+}
+
+function prepareDateFields() {
+	var today = formatDate(new Date(), "yyyy-MM-dd"); // Today's date formatted
+	var dateFields = document.querySelectorAll(".modal-window input[type=date]"); // [0]: Start, [1]: End
+	var timeFields = document.querySelectorAll(".modal-window input[type=time]"); // [0]: Start, [1]: End
+
+	// Set default values for date fields
+	dateFields[0].value = today;
+	dateFields[0].setAttribute("min", today);
+	dateFields[1].value = today;
+	dateFields[1].setAttribute("min", today);
+
+	// Start Date Field did change
+	dateFields[0].addEventListener("change", function() {
+		var newStartDate = new Date(this.value); // User set a new start date
+		dateFields[1].setAttribute("min", formatDate(newStartDate, "yyyy-MM-dd")); // Minimum Date of End is updated
+		dateFields[1].value = formatDate(latestDate([newStartDate, new Date(dateFields[1].value)]), "yyyy-MM-dd");
+	});
+
+	// Set Default Values for time fields
+	
+	
+
 }
 
 function openModal(entry) {
@@ -95,7 +123,7 @@ function openModal(entry) {
 
 
 	if (entry != null) {
-		document.getElementById("modal-title-tf").innerText = entry.title;
+		document.getElementById("title-tf").innerText = entry.title;
 	} else {
 
 	}
@@ -123,11 +151,16 @@ function increaseMonth() {
 	Convert/Format
 */
 
-function convertDateString(dateString, format) {
+// Takes date and returns formatted date string
+function formatDate(date, format) {
 	/* Lookup Documentation @https://github.com/phstc/jquery-dateFormat */
-	return $.format.date(dateString + ":00Z", format);
+	return $.format.date(date, format);
 }
-
+// Compares dates and returns the latest one
+function latestDate(dates) {
+	return new Date(Math.max.apply(null, dates));
+}
+// Takes dom element and class selector and returns index of element in class selector list
 function getIndexOfElement(element, selector) {
 	var elementList = document.querySelectorAll(selector);
 

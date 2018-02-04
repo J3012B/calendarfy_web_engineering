@@ -2,6 +2,7 @@ body {
 	margin: 0;
 	background: #F8F9F9;
 	font-family: Helvetica;
+	color: #2C3E50;
 }
 
 
@@ -209,11 +210,51 @@ body {
 
 .modal-window {
     background-color: white;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    margin: 200px auto; /* 15% from the top and centered */
+    padding: 40px;
+    /*border: 1px solid #888;*/
+    width: 90%; /* Could be more or less, depending on screen size */
+    max-width: 500px;
+    font-size: 16px;
+    color: #2C3E50;
 }
+
+/* Inputs */
+.modal-window input {
+	width: 100%;
+	margin-bottom: 10px;
+	border: 0;
+	border-radius: 10px;
+	outline: 0;
+	background: #F4F6F6;
+	padding: 10px;
+	font-size: 16px;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
+	
+}
+
+/* Inputs for dates */
+.modal-window input[type=date] {
+	display: inline-block;
+	float: left;
+	width: 47.5%;
+}
+.modal-window input[type=time] {
+	float: right;
+	width: 47.5%;
+}
+
+
+/* Labels */
+.modal-window label {
+	font-weight: bold;
+	margin: 10px 10px;
+	display: inline-block;
+}
+
+
 
 
 
@@ -262,5 +303,9 @@ hr {
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
     margin: 0;
+}
+
+input {
+	font-family: inherit;
 }
 
