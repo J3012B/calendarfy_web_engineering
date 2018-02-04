@@ -57,7 +57,7 @@ function loadCells(entries) {
 			deleteEvent(entries[cellIndex].id);
 		};
 		cellTmpl.querySelector(".cell-edit-btn").onclick = function() {
-			openModal(entry);
+			openModal(null);
 		}
 
 
@@ -97,7 +97,6 @@ function prepareModal() {
 function prepareDateFields() {
 	var today = formatDate(new Date(), "yyyy-MM-dd"); // Today's date formatted
 	var dateFields = document.querySelectorAll(".modal-window input[type=date]"); // [0]: Start, [1]: End
-	var timeFields = document.querySelectorAll(".modal-window input[type=time]"); // [0]: Start, [1]: End
 
 	// Set default values for date fields
 	dateFields[0].value = today;
@@ -111,9 +110,6 @@ function prepareDateFields() {
 		dateFields[1].setAttribute("min", formatDate(newStartDate, "yyyy-MM-dd")); // Minimum Date of End is updated
 		dateFields[1].value = formatDate(latestDate([newStartDate, new Date(dateFields[1].value)]), "yyyy-MM-dd");
 	});
-
-	// Set Default Values for time fields
-	
 	
 
 }
@@ -123,7 +119,7 @@ function openModal(entry) {
 
 
 	if (entry != null) {
-		document.getElementById("title-tf").innerText = entry.title;
+		document.getElementById("title-tf").value = entry.title;
 	} else {
 
 	}
