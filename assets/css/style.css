@@ -2,6 +2,7 @@ body {
 	margin: 0;
 	background: #F8F9F9;
 	font-family: Helvetica;
+	color: #2C3E50;
 }
 
 
@@ -139,18 +140,38 @@ body {
 */
 
 #calendar {
-	background: #EDBB99;
-	height: 100px;
+	/*background: #EDBB99;*/
+	background: white;
 }
 
 #calendar-head {
 	background: white;
-
+	overflow: hidden;
+	text-align: center;
+	vertical-align: middle;
 }
 
-#calendar-head a, #calendar-head div {
+#calendar-head div {
+	display: inline-block;
+	height: 36px;
+	line-height: 36px;
+}
+#calendar-head a {
 	float: left;
 	display: inline-block;
+}
+#calendar-head a:last-of-type {
+	float: right;
+}
+#calendar-head a i: hover {
+	background: lightgray;
+} 
+
+#calendar-body {
+	background: white;
+}
+#calendar-body table {
+	width: 100%;
 }
 
 
@@ -170,6 +191,91 @@ body {
 	background: #B03A2E;
 }
 
+/*
+	MODAL VIEW
+*/
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-window {
+    background-color: white;
+    margin: 50px auto;
+    padding: 40px;
+    /*border: 1px solid #888;*/
+    width: 90%; /* Could be more or less, depending on screen size */
+    max-width: 500px;
+    font-size: 16px;
+    color: #2C3E50;
+}
+
+/* Inputs */
+.modal-window input, .modal-window select {
+	width: 100%;
+	margin-bottom: 10px;
+	border: 0;
+	border-radius: 10px;
+	/*outline: 0;*/
+	background: #F4F6F6;
+	padding: 10px;
+	font-size: 16px;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+.modal-window select {
+	color: white;
+	background: url(../img/down-arrow.png) no-repeat right 0;
+	background-color: #1ABC9C; /* green */
+	overflow: hidden;
+}
+
+/* Inputs for dates */
+.modal-window input[type=date] {
+	display: inline-block;
+	float: left;
+	width: 47.5%;
+}
+.modal-window input[type=time] {
+	float: right;
+	width: 47.5%;
+}
+
+
+/* Labels */
+.modal-window label {
+	font-weight: bold;
+	margin: 10px 10px;
+	display: inline-block;
+}
+
+.modal-window #submit-btn {
+	margin: 30px auto;
+	margin-bottom: 0;
+	font-size: 24px;
+	color: white;
+	padding: 20px;
+	cursor: pointer;
+	text-align: center;
+	width: 90%;
+	max-width: 250px;
+	border-radius: 10px;
+}
+
+
+
+
 
 
 
@@ -180,12 +286,24 @@ body {
 */
 
 
+/* adds shadow to element */
 .shadow {
 	box-shadow: 0px 4px 10px darkgray;
 }
 
+/* makes elements unselectable */
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 a {
 	text-decoration: none;
+	cursor: pointer;
 }
 
 i {
@@ -204,5 +322,19 @@ hr {
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
     margin: 0;
+}
+
+input {
+	font-family: inherit;
+}
+
+select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	 appearance: none;
+	 border:none;
+	 border-radius: 0;
+	 font-size: 1em;
+	 width: 100%;
 }
 
