@@ -54,7 +54,7 @@ function loadCells(entries) {
 		// Buttons
 		cellTmpl.querySelector(".cell-delete-btn").onclick = function() {
 			var cellIndex = getIndexOfElement(this, ".cell-delete-btn");
-			deleteEvent(entries[cellIndex].id);
+			deleteEntry(entries[cellIndex].id);
 		};
 		cellTmpl.querySelector(".cell-edit-btn").onclick = function() {
 			openModal(entries[getIndexOfElement(this, ".cell-edit-btn")]);
@@ -123,17 +123,15 @@ function openModal(entry) {
 	var modal = document.getElementById("modal");
 
 	if (entry != null) {
+		fillModal(entry);
 		setModalButton(false);
-
-		document.getElementById("title-tf").value = entry.title;
-		$("#location-tf").val(entry.location);
-
-		console.log($("#location-tf").val());
 	} else {
+		clearModal();
 		setModalButton(true);
 	}
 
-	modal.style.display = "block";
+	prepareDateFields() // set default values for date inputs
+	modal.style.display = "block"; // show modal
 }
 
 /*  */
@@ -141,32 +139,41 @@ function setModalButton(createNew) {
 
 	if (createNew) {
 		$("#submit-btn").text("Create Entry");
+		$("#submit-btn").removeClass("orange").addClass("blue");
 	} else {
 		$("#submit-btn").text("Update Entry");
+		$("#submit-btn").removeClass("blue").addClass("orange");
 	}
 }
 
 function fillModal(entry) {
 
+
+	$(".modal-window #title-tf").val(entry.title);
+	$(".modal-window #location-tf").val(entry.location);
 }
 
 function clearModal() {
-
+	$(".modal-window #title-tf").val("");
+	$(".modal-window #location-tf").val("");
 }
 
 
 /*
-	DOM Events ---------------------------------------------------------------------------------------
+	Element Events ---------------------------------------------------------------------------------------
 */
 
+/* calendar: left arrow clicked */
 function decreaseMonth() {
 	currentMonth = new Date(currentMonth.setMonth(new Date(currentMonth.setDate(1)).getMonth() - 1));
 	updateCalendarMonthLbl();
 }
+/* calendar: right arrow clicked */
 function increaseMonth() {
 	currentMonth = new Date(currentMonth.setMonth(new Date(currentMonth.setDate(1)).getMonth() + 1));
 	updateCalendarMonthLbl();
 }
+/* modal:  */
 
 
 
@@ -208,7 +215,7 @@ function getIndexOfElement(element, selector) {
 	BACKEND ---------------------------------------------------------------------------------------
 */
 
-function loadEvents() {
+function loadEntries() {
 	// GET all events from server
 	var request = new XMLHttpRequest();
 	request.open("GET", url + "/events");
@@ -226,7 +233,7 @@ function loadEvents() {
 	request.send();
 }
 
-function deleteEvent(id) {
+function deleteEntry(id) {
 	// DELETE event with specific id
 	var request = new XMLHttpRequest();
 	request.open("DELETE", url + "/events/" + id);
@@ -239,6 +246,33 @@ function deleteEvent(id) {
 		}
 	});
 	request.send();
+}
+
+function createEntry(data) {
+	/*
+	{
+    "title": " Christmas Feast",
+    "location": "Stuttgart",
+    "organizer": "dhbw@bisswanger.de",
+    "start": "2014-12-24T18:00",
+    "end": "2014-12-24T23:30",
+    "status": "Busy",
+    "allday": 0,
+    "webpage": "http://www.bisswanger.de/"
+}
+
+
+	/{user}/events
+	POST
+
+
+
+	*/
+}
+
+function updateEntry(data) {
+	// /{user}/events/{event-id}
+	// 	PUT
 
 }
 
@@ -268,11 +302,16 @@ $(document).ready(function() {
 	calendarBtns[0].addEventListener("click", function() { decreaseMonth() });
 	calendarBtns[1].addEventListener("click", function() { increaseMonth() });
 
-	// Modal View
+	// Floating Button
 	document.getElementById("floating-btn").onclick = function() { openModal(null); }
 
+	// Modal View
+	$(".modal-window #submit-btn").on("click", function() {
+		console.log(this + " clicked");
+	});
 
-	loadEvents(); // GET Event Data & create list cells
+
+	loadEntries(); // GET Event Data & create list cells
 	updateCalendarMonthLbl();
 	prepareModal();
 

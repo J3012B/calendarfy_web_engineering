@@ -210,7 +210,7 @@ body {
 
 .modal-window {
     background-color: white;
-    margin: 200px auto; /* 15% from the top and centered */
+    margin: 50px auto;
     padding: 40px;
     /*border: 1px solid #888;*/
     width: 90%; /* Could be more or less, depending on screen size */
@@ -264,7 +264,6 @@ body {
 	margin: 30px auto;
 	margin-bottom: 0;
 	font-size: 24px;
-	background: #3498DB;
 	color: white;
 	padding: 20px;
 	cursor: pointer;
@@ -272,10 +271,6 @@ body {
 	width: 90%;
 	max-width: 250px;
 	border-radius: 10px;
-}
-
-.modal-window #submit-btn:hover {
-	background: #2874A6;
 }
 
 

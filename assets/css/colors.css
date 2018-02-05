@@ -1,0 +1,31 @@
+
+
+
+.blue {
+	background: #3498DB;
+}
+
+.orange {
+	background: #F39C12;
+}
+
+
+
+
+
+
+.interactive.blue:hover {
+	background: #2874A6;;
+}
+
+.interactive.orange:hover {
+	background: #B9770E;
+}
+
+
+
+
+
+.interactive {
+
+}
