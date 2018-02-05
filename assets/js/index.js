@@ -10,7 +10,7 @@ var url = "http://www.dhbw.ramonbisswanger.de/calendar/3329493";
 
 
 /*
-	DATA
+	DATA ---------------------------------------------------------------------------------------
 */
 
 var entries = [];
@@ -18,7 +18,7 @@ var currentMonth = new Date();
 
 
 /*
-	UI
+	UI ---------------------------------------------------------------------------------------
 */
 
 var cells = [];
@@ -31,7 +31,7 @@ var cells = [];
 
 
 /*
-	FRONTEND
+	FRONTEND -----------------------------------------------------------------------------------
 */
 
 // load cells into list view
@@ -57,7 +57,7 @@ function loadCells(entries) {
 			deleteEvent(entries[cellIndex].id);
 		};
 		cellTmpl.querySelector(".cell-edit-btn").onclick = function() {
-			openModal(null);
+			openModal(entries[getIndexOfElement(this, ".cell-edit-btn")]);
 		}
 
 
@@ -78,7 +78,11 @@ function updateCalendarMonthLbl() {
 	monthLbl.innerText = $.format.date(currentMonth, "MMMM yyyy");;
 }
 
-// Modal
+/*
+	MODAL -----------------------
+*/
+
+/* prepares modal for showing */
 function prepareModal() {
 	var modal = document.getElementById('modal');
 
@@ -94,6 +98,7 @@ function prepareModal() {
 
 }
 
+/* prepares date fields in modal with default values */
 function prepareDateFields() {
 	var today = formatDate(new Date(), "yyyy-MM-dd"); // Today's date formatted
 	var dateFields = document.querySelectorAll(".modal-window input[type=date]"); // [0]: Start, [1]: End
@@ -110,26 +115,48 @@ function prepareDateFields() {
 		dateFields[1].setAttribute("min", formatDate(newStartDate, "yyyy-MM-dd")); // Minimum Date of End is updated
 		dateFields[1].value = formatDate(latestDate([newStartDate, new Date(dateFields[1].value)]), "yyyy-MM-dd");
 	});
-	
 
 }
 
+/* user opens modal */
 function openModal(entry) {
 	var modal = document.getElementById("modal");
 
-
 	if (entry != null) {
-		document.getElementById("title-tf").value = entry.title;
-	} else {
+		setModalButton(false);
 
+		document.getElementById("title-tf").value = entry.title;
+		$("#location-tf").val(entry.location);
+
+		console.log($("#location-tf").val());
+	} else {
+		setModalButton(true);
 	}
 
 	modal.style.display = "block";
 }
 
+/*  */
+function setModalButton(createNew) {
+
+	if (createNew) {
+		$("#submit-btn").text("Create Entry");
+	} else {
+		$("#submit-btn").text("Update Entry");
+	}
+}
+
+function fillModal(entry) {
+
+}
+
+function clearModal() {
+
+}
+
 
 /*
-	Button Events
+	DOM Events ---------------------------------------------------------------------------------------
 */
 
 function decreaseMonth() {
@@ -144,7 +171,7 @@ function increaseMonth() {
 
 
 /*
-	Convert/Format
+	Convert/Format ---------------------------------------------------------------------------------------
 */
 
 // Takes date and returns formatted date string
@@ -178,7 +205,7 @@ function getIndexOfElement(element, selector) {
 
 
 /*
-	BACKEND
+	BACKEND ---------------------------------------------------------------------------------------
 */
 
 function loadEvents() {
@@ -229,7 +256,7 @@ function deleteEvent(id) {
 
 
 /*
-	Document loaded
+	Document loaded ---------------------------------------------------------------------------------------
 */
 
 $(document).ready(function() {
