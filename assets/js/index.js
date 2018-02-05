@@ -6,7 +6,11 @@ var url = "http://www.dhbw.ramonbisswanger.de/calendar/3329493";
 
 
 
+/*
+	HELPER --------------------------------------------------------------------------------------
+*/
 
+var requestType = Object.freeze({"GET": "GET", "POST": "POST", "DELETE": "DELETE"});
 
 
 /*
@@ -215,11 +219,18 @@ function getIndexOfElement(element, selector) {
 	BACKEND ---------------------------------------------------------------------------------------
 */
 
-function loadEntries() {
-	// GET all events from server
+function makeRequest(requestType, requestURL, callback) {
 	var request = new XMLHttpRequest();
-	request.open("GET", url + "/events");
+
+	request.open(requestType, requestURL);
 	request.addEventListener("load", function(event) {
+		callback(request, event);
+	});
+	request.send();
+}
+
+function loadEntries() {
+	makeRequest(requestType.GET, url + "/events", function(request, event) {
 		if (request.status >= 200 && request.status < 300) {
 			entries = JSON.parse(request.responseText);
 
@@ -230,14 +241,11 @@ function loadEntries() {
 			console.warn(request.statusText, request.responseText);
 		}
 	});
-	request.send();
 }
 
 function deleteEntry(id) {
 	// DELETE event with specific id
-	var request = new XMLHttpRequest();
-	request.open("DELETE", url + "/events/" + id);
-	request.addEventListener("load", function(event) {
+	makeRequest(requestType.DELETE, url + "/events" + id, function(request, event) {
 		if (request.status >= 200 && request.status < 300) {
 			console.log("Deleted event with id " + id + " successfully.");
 			window.location.reload(true);
@@ -245,7 +253,6 @@ function deleteEntry(id) {
 			console.warn(request.statusText, request.responseText);
 		}
 	});
-	request.send();
 }
 
 function createEntry(data) {
