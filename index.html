@@ -16,7 +16,10 @@
 
 	<!-- Javascript Code -->
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-	<script type="text/javascript" src="assets/js/jquery-dateFormat.min.js"></script>
+	<!-- <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+	 -->
+	 <script type="text/javascript" src="assets/js/jquery-dateFormat.min.js"></script>
 <!-- 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWH4gLcvWyjV_3Wtxesom93_RNOm8K9L4&libraries=places"></script>
  -->	<script type="text/javascript" src="assets/js/index.js"></script>
 </head>
@@ -104,7 +107,7 @@
 					<div class="cell-title">Title</div>
 					<div class="cell-location">Location</div>
 					<a href="https://www.google.de/maps" target="_blank" class="cell-location-btn">
-						<i class="material-icons md-light">place</i>
+						<i class="cell-pin material-icons md-light">place</i>
 					</a>
 				</div>
 			</div>
@@ -124,45 +127,50 @@
 	<div id="modal" class="modal">
 	  <!-- Modal content -->
 	  <div class="modal-window">
+	  	<form>
+		  	<!-- Title -->
+		  	<label for="title-tf">Title</label>
+		  	<input required maxlength="50" type="text" spellcheck="false" id="title-tf">
+		  	<!-- Location -->
+		  	<label for="location-tf">Location</label>
+		  	<input maxlength="50" type="text" spellcheck="false" id="location-tf">
+		  	<!-- Start -->
+		  	<label for="start-df">Start</label>
+		  	<div>
+		  		<input required type="date" id="start-date-field">
+		  		<input required type="time" id="start-time-field">
+		  	</div>
+		  	<!-- End -->
+		  	<label for="end-df">End</label>
+		  	<div>
+		  		<input required type="date" id="end-date-field">
+		  		<input required type="time" id="end-time-field">
+		  	</div>
+		  	<!-- All day here -->
+		  	<label for="allday-cb">All Day</label>
+		  	<input type="checkbox" id="allday-cb">
 
-	  	<!-- Title -->
-	  	<label for="title-tf">Title</label>
-	  	<input type="text" spellcheck="false" id="title-tf">
-	  	<!-- Location -->
-	  	<label for="location-tf">Location</label>
-	  	<input type="text" spellcheck="false" id="location-tf">
-	  	<!-- Start -->
-	  	<label for="start-df">Start</label>
-	  	<div>
-	  		<input type="date" id="start-date-field">
-	  		<input type="time" id="start-time-field">
-	  	</div>
-	  	<!-- End -->
-	  	<label for="end-df">End</label>
-	  	<div>
-	  		<input type="date" id="end-date-field">
-	  		<input type="time" id="end-time-field">
-	  	</div>
-	  	<!-- All day here -->
-	  	<!-- ............ -->
-
-	  	<!-- Status -->
-	  	<label for="status-select">Status</label>
-	  	<select id="status-select">
-	  		<option>Free</option>
-	  		<option>Busy</option>
-	  		<option>Tentative</option>
-	  	</select>
-	  	<!-- Organizer -->
-	  	<label for="organizer-tf">Organizer</label>
-	  	<input type="text" spellcheck="false" id="organizer-tf">
-	  	<!-- Webpage -->
-	  	<label for="webpage-tf">Webpage</label>
-	  	<input type="text" spellcheck="false" id="webpage-tf">
+		  	<!-- Status -->
+		  	<label for="status-select">Status</label>
+		  	<select required id="status-select">
+		  		<option>Free</option>
+		  		<option>Busy</option>
+		  		<option>Tentative</option>
+		  	</select>
+		  	<!-- Organizer -->
+		  	<label for="organizer-tf">Organizer</label>
+		  	<input required maxlength="50" type="email" spellcheck="false" id="organizer-tf">
+		  	<!-- Webpage -->
+		  	<label for="webpage-tf">Webpage</label>
+		  	<input maxlength="100" type="text" spellcheck="false" id="webpage-tf">
 
 
-	  	<!-- Create/Edit Button -->
-	  	<div class="blue interactive" id="submit-btn">Create Entry</div>
+		  	<button type="submit" class="blue interactive" id="submit-btn">Create Entry</button>
+
+		  	<!-- Create/Edit Button -->
+		  	<!-- <div class="blue interactive" id="submit-btn">Create Entry</div> -->
+		</form>
+
 
 	  </div>
 	  
