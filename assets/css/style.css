@@ -125,13 +125,14 @@ body {
 
 .cell-btns {
 	text-align: right;
+	overflow: hidden;
 }
 
-.cell-text-content a {
-	display: inline-block;
+.cell-btns i {
+	display: inline;
 	margin-left: 20px;
 }
-.cell-text-content a i:hover {
+.cell-btns i:hover {
 	color: #0E6251;
 }
 

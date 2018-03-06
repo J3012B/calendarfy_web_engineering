@@ -60,6 +60,12 @@ function loadCells(entries) {
 		cellTmpl.querySelector(".cell-time").innerText = startTime + " - " + endTime;
 		cellTmpl.querySelector(".cell-date").innerText = startDate;
 		// Buttons
+		cellTmpl.querySelector(".cell-email-btn").setAttribute("href", "mailto:" + entry.organizer);
+		if (entry.webpage != null) {
+			cellTmpl.querySelector(".cell-public-btn").href = entry.webpage;
+		} else {
+			cellTmpl.querySelector(".cell-public-btn").style.display = "none";
+		}
 		cellTmpl.querySelector(".cell-delete-btn").onclick = function() {
 			var cellIndex = getIndexOfElement(this, ".cell-delete-btn");
 			deleteEntry(entries[cellIndex].id);
@@ -102,9 +108,10 @@ function prepareModal() {
 	}
 
 	// Prepare Checkbox
+	var startField = $(".modal-window #start-time-field");
+	var endField = $(".modal-window #end-time-field");
+
 	$(".modal-window #allday-cb").change(function() {
-		var startField = $(".modal-window #start-time-field");
-		var endField = $(".modal-window #end-time-field");
 
 		startField.prop('disabled', this.checked);
 		endField.prop('disabled', this.checked);
@@ -156,9 +163,9 @@ function openModal(entry) {
 
 /* Sets style and functionality of the (Create/Edit)-Button */
 function setModalButton(createNew) {
-	var modalButton = $("#submit-btn")[0];
+	var modalButton = $("#submit-btn");
 
-	modalButton.onclick = null; // remove event from button
+	modalButton.off("click"); // remove event from button
 
 	if (createNew) {
 		modalButton.text("Create Entry");
@@ -166,7 +173,6 @@ function setModalButton(createNew) {
 		modalButton.on("click", function() {
 			createEntry(retrieveModalData());
 		});
-
 	} else {
 		modalButton.text("Update Entry");
 		modalButton.removeClass("blue").addClass("orange");
@@ -184,7 +190,11 @@ function fillModal(entry) {
 	$(".modal-window #start-time-field").val(formatDate(entry.start + ":00Z", "HH:mm:ss.SSS"));
 	$(".modal-window #end-date-field").val(formatDate(entry.end, "yyyy-MM-dd"));
 	$(".modal-window #end-time-field").val(formatDate(entry.end + ":00Z", "HH:mm:ss.SSS"));
+	$(".modal-window #start-time-field").prop('disabled', entry.allday);
+	$(".modal-window #end-time-field").prop('disabled', entry.allday);
 	$(".modal-window #allday-cb").prop('checked', entry.allday);
+	$(".modal-window #organizer-tf").val(entry.organizer);
+	$(".modal-window #webpage-tf").val(entry.webpage);
 
 }
 
@@ -201,8 +211,8 @@ function clearModal() {
 }
 
 function retrieveModalData() {
-	var start = $("#start-date-field").val() + "T" + $("#start-time-field").val();
-	var end = $("#end-date-field").val() + "T" + $("#end-time-field").val();
+	var start = $("#start-date-field").val() + "T" + $("#start-time-field").val().substring(0,5);
+	var end = $("#end-date-field").val() + "T" + $("#end-time-field").val().substring(0,5);
 
 	var data = {
 	    "title": $(".modal-window #title-tf").val(),
@@ -310,31 +320,43 @@ function deleteEntry(id) {
 
 function createEntry(data) {
 
-	console.log("creates entry");
+	console.log("Create entry");
 
-	if (data != null) {
-		console.log("date != null");
-
-		// POST new entry
-		var request = new XMLHttpRequest();
-		request.open("POST", url + "/events/");
-		request.setRequestHeader("Content-type", "application/json", true);
-		request.addEventListener("load", function() {
-			if (request.status >= 200 && request.status < 300) {
-				console.log("Create new event: \n" + request.responseText);
-				window.location.reload(true);
-			} else {
-				console.warn(request.statusText, request.responseText);
-			}
-		});
-		request.send(JSON.stringify(data));
-	}
-
+	// POST new entry
+	var request = new XMLHttpRequest();
+	request.open("POST", url + "/events/");
+	request.setRequestHeader("Content-type", "application/json", true);
+	request.addEventListener("load", function() {
+		if (request.status >= 200 && request.status < 300) {
+			console.log("Created new entry: \n" + request.responseText);
+			window.location.reload(true);
+		} else {
+			console.warn(request.statusText, request.responseText);
+		}
+	});
+	request.send(JSON.stringify(data));
+	
 }
 
 function updateEntry(data) {
-	// /{user}/events/{event-id}
-	// 	PUT
+	console.log("Update entry with id " + modalID);
+	console.log(data);
+
+	data.id = modalID;
+
+	// PUT new entry data to specific id
+	var request = new XMLHttpRequest();
+	request.open("PUT", url + "/events/" + modalID);
+	request.setRequestHeader("Content-type", "application/json", true);
+	request.addEventListener("load", function() {
+		if (request.status >= 200 && request.status < 300) {
+			console.log("Updated entry with id " + modalID + ": \n" + request.responseText);
+			window.location.reload(true);
+		} else {
+			console.warn(request.statusText, request.responseText);
+		}
+	});
+	request.send(JSON.stringify(data));
 
 }
 
