@@ -48,6 +48,8 @@ function loadCells(entries) {
 
 		var cellTmpl = document.getElementById("cell-template").content.cloneNode(true);
 		cellTmpl.querySelector(".cell-title").innerText = entry.title;
+		console.log("Image Url for entry " + i + " is: " + entry.imageurl);
+		cellTmpl.querySelector(".cell-img").backgroundImage = entry.imageurl;
 		if (entry.location != null) {
 			cellTmpl.querySelector(".cell-location").innerText = entry.location;
 			cellTmpl.querySelector(".cell-location-btn").href = "https://www.google.de/maps/search/?api=1&query=" + entry.location.replace(/ /g,"+"); 
@@ -100,7 +102,8 @@ function updateCalendarMonthLbl() {
 
 /* prepares modal for showing */
 function prepareModal() {
-	var modal = document.getElementById('modal');
+	const modal = document.getElementById('modal');
+	const imageUploadInput = document.getElementById('image-up');
 
 	// When the user clicks anywhere outside of the modal, close it
 	window.onclick = function(event) {
@@ -114,7 +117,6 @@ function prepareModal() {
 	var endField = $(".modal-window #end-time-field");
 
 	$(".modal-window #allday-cb").change(function() {
-
 		startField.prop('disabled', this.checked);
 		endField.prop('disabled', this.checked);
 		startField.val("00:00");
@@ -123,6 +125,14 @@ function prepareModal() {
 
 	// Set Date Fields to today
 	prepareDateFields();
+
+	// Limit maximal file size for entry image
+	imageUploadInput.onchange = function() {
+	    if(this.files[0].size > 500000){
+	       alert("This file is too big! (max. 500 kB)");
+	       this.value = "";
+	    };
+	};
 
 }
 
@@ -226,7 +236,8 @@ function retrieveModalData() {
 	    "end": end,
 	    "status": $(".modal-window #status-select").val(),
 	    "allday": $(".modal-window #allday-cb").prop('checked'),
-	    "webpage": $(".modal-window #webpage-tf").val()
+	    "webpage": $(".modal-window #webpage-tf").val(),
+	    "imagedata": "data:application/json;base64," + convertImageToBase64(document.getElementById("image-up").files[0])
 	};
 
 	return data;
@@ -275,6 +286,18 @@ function getIndexOfElement(element, selector) {
 	}
 
 	return -1;
+}
+
+function convertImageToBase64(file) {
+	var reader = new FileReader();
+	reader.readAsDataURL(file);
+   	reader.onload = function () {
+    	return reader.result;
+   	};
+   	reader.onerror = function (error) {
+     	console.log("Couldn't convert file to base64: ", error);
+     	return "";
+   	};
 }
 
 
