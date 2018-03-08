@@ -104,7 +104,7 @@
 					<div class="cell-title">Title</div>
 					<div class="cell-location">Location</div>
 					<a href="https://www.google.de/maps" target="_blank" class="cell-location-btn">
-						<i class="material-icons md-light">place</i>
+						<i class="cell-pin material-icons md-light">place</i>
 					</a>
 				</div>
 			</div>
@@ -112,8 +112,19 @@
 				<div class="cell-time">Start - End</div>
 				<div class="cell-date">dd-mm-yyyy</div>
 				<div class="cell-btns">
-					<a href="#"><i class="material-icons md-green cell-delete-btn">delete</i></a>
-					<a href="#"><i class="material-icons md-green cell-edit-btn">mode_edit</i></a>
+					<a href="#">
+						<i class="material-icons md-green cell-public-btn">public</i>
+					<a>
+					<a href="#">
+						<i class="material-icons md-green cell-email-btn">email</i>
+					<a>
+					<a href="#">
+						<i class="material-icons md-green cell-delete-btn">delete</i>
+					</a>
+					<a href="#">
+						<i class="material-icons md-green cell-edit-btn">mode_edit</i>
+					</a>
+
 				</div>
 			</div>
 		</div>
@@ -144,7 +155,8 @@
 	  		<input type="time" id="end-time-field">
 	  	</div>
 	  	<!-- All day here -->
-	  	<!-- ............ -->
+		<label for="allday-cb">All Day</label>
+	  	<input type="checkbox" id="allday-cb">
 
 	  	<!-- Status -->
 	  	<label for="status-select">Status</label>
@@ -163,6 +175,7 @@
 
 	  	<!-- Create/Edit Button -->
 	  	<div class="blue interactive" id="submit-btn">Create Entry</div>
+
 
 	  </div>
 	  

@@ -125,13 +125,14 @@ body {
 
 .cell-btns {
 	text-align: right;
+	overflow: hidden;
 }
 
-.cell-text-content a {
-	display: inline-block;
+.cell-btns i {
+	display: inline;
 	margin-left: 20px;
 }
-.cell-text-content a i:hover {
+.cell-btns i:hover {
 	color: #0E6251;
 }
 
@@ -234,6 +235,10 @@ body {
 	box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
+.modal-window input[type=checkbox] {
+	margin-left: 10px;
+}
+
 .modal-window select {
 	color: white;
 	background: url(../img/down-arrow.png) no-repeat right 0;
@@ -261,6 +266,9 @@ body {
 }
 
 .modal-window #submit-btn {
+	display: block;
+	width: 90%;
+	max-width: 250px;
 	margin: 30px auto;
 	margin-bottom: 0;
 	font-size: 24px;
@@ -268,9 +276,9 @@ body {
 	padding: 20px;
 	cursor: pointer;
 	text-align: center;
-	width: 90%;
-	max-width: 250px;
+	
 	border-radius: 10px;
+	border: 0;
 }
 
 
