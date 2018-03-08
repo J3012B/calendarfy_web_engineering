@@ -315,11 +315,7 @@ function loadEntries() {
 
 function deleteEntry(id) {
 	// DELETE event with specific id
-<<<<<<< HEAD
 	makeRequest(requestType.DELETE, url + "/events" + id, function(request, event) {
-=======
-	makeRequest(requestType.DELETE, url + "/events/" + id, function(request, event) {
->>>>>>> master
 		if (request.status >= 200 && request.status < 300) {
 			console.log("Deleted event with id " + id + " successfully.");
 			window.location.reload(true);
@@ -327,10 +323,6 @@ function deleteEntry(id) {
 			console.warn(request.statusText, request.responseText);
 		}
 	});
-<<<<<<< HEAD
-=======
-
->>>>>>> master
 }
 
 function createEntry(data) {
