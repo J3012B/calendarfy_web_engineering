@@ -285,6 +285,12 @@ function getIndexOfElement(element, selector) {
 
 	return -1;
 }
+// Sorts entries by date
+function sortEntriesByDate(entries) {
+	return entries.sort(function(a, b) {
+    	return new Date(b.start) - new Date(a.start);
+	});
+}
 
 // function convertImageToBase64(file) {
 // 	var reader = new FileReader();
@@ -326,6 +332,7 @@ function loadEntries() {
 			entries = JSON.parse(request.responseText);
 
 			console.log("Fetching data successful (loaded " + entries.length + " event(s))");
+			sortEntriesByDate(entries);
 
 			loadCells(entries);
 		} else {
