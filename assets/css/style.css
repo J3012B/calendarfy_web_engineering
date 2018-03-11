@@ -106,11 +106,21 @@ body {
 	display: inline;
 }
 
-.cell-img-content a {
+.cell-img-content a.cell-location-btn {
 	margin-left: 10px;
 }
-.cell-img-content a i:hover {
+.cell-img-content a.cell-location-btn i.cell-pin:hover {
 	color: #E74C3C;
+}
+
+.cell-img-content .cell-img-handling {
+	margin-top: 65px;
+}
+.cell-img-content a {
+	margin-right: 20px;
+}
+.cell-img-content a i:hover {
+	color: #D5D8DC;
 }
 
 .cell-text-content {
