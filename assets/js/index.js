@@ -45,10 +45,15 @@ function loadCells(entries) {
 
 	for (var i = 0; i < entries.length; i++) {
 		var entry = entries[i];
-
 		var cellTmpl = document.getElementById("cell-template").content.cloneNode(true);
+		
+		// Title
 		cellTmpl.querySelector(".cell-title").innerText = entry.title;
-		cellTmpl.querySelector(".cell-img").backgroundImage = entry.imageurl;
+		// Image
+		if (entry.imageurl) {
+			cellTmpl.querySelector(".cell-img").backgroundImage = entry.imageurl;
+		}
+		// Location
 		if (entry.location != null) {
 			cellTmpl.querySelector(".cell-location").innerText = entry.location;
 			cellTmpl.querySelector(".cell-location-btn").href = "https://www.google.de/maps/search/?api=1&query=" + entry.location.replace(/ /g,"+"); 
