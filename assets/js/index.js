@@ -465,7 +465,7 @@ function updateEntry(data) {
 
 function addImageToEntry(encodedImage, entryID) {
 	var data = {
-		data: encodedImage
+		imagedata: encodedImage
 	};
 
 	console.log("Will upload: " + JSON.stringify(data));
