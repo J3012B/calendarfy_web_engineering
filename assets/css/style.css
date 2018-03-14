@@ -286,7 +286,7 @@ body {
 	display: inline-block;
 }
 
-.modal-window #submit-btn {
+.submit-btn {
 	display: block;
 	width: 90%;
 	max-width: 250px;
