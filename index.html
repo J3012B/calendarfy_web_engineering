@@ -24,9 +24,9 @@
 	<!-- Nav Bar -->
 	<div id="navbar" class="shadow">
 		<a href="#" id="calendarfy-logo">Calendarfy</a>
-
-		<!-- Period View (today/week/month) -->
-
+		<div class="nav-bar-container">
+			<!-- Period View (today/week/month) -->
+		</div>
 	</div>
 
 	<!-- Body -->
@@ -40,7 +40,7 @@
 
 		<!-- Calendar View -->
 		<div id="body-calendar">
-			<div id="calendar" class="shadow">
+			<div id="calendar" class="shadow white-bg">
 				<div class="unselectable" id="calendar-head">
 					<a>
 						<i class="material-icons md-dark md-36 unselectable">keyboard_arrow_left</i>
@@ -73,6 +73,15 @@
 							<td>6</td>
 						</tr>
 					</table>
+				</div>
+			</div>
+
+			<div id="categories" class="shadow white-bg">
+				<h2>Categories</h2>
+				<div id="category-list"></div>
+				<div id="add-category">
+					<input type="text" placeholder="Add new category">
+					<a href="#">Add</a>
 				</div>
 			</div>
 		</div>
@@ -136,6 +145,14 @@
 		</div>
 	</template>
 
+	<!-- Category Cell -->
+	<template id="category-cell-template">
+		<hr>
+		<div class="category-cell">
+			<div class="title">No category</div>
+			<span><a href="#"><i class="material-icons md-dark">delete</i></a></span>	
+		</div>
+	</template>
 
 	<!-- Modal View -->
 	<div id="modal" class="modal">

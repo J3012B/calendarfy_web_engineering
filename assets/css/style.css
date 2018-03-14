@@ -9,6 +9,10 @@ body {
 	background-attachment: fixed;
 }
 
+h1, h2, h3 {
+	margin: 0;
+}
+
 
 
 
@@ -25,13 +29,23 @@ body {
 	position: fixed; /* Set the navbar to fixed position */
     top: 0; /* Position the navbar at the top of the page */
     width: 100%; /* Full width */
+    color: white;
 }
 
-#calendarfy-logo {
+#navbar a {
+	font-size: 20px;
+	color: white;
+}
+#navbar a:hover {
+	color: #D5D8DC;
+}
+
+#navbar #calendarfy-logo {
 	font-family: 'Pacifico', cursive;
 	font-size: 30px;
 	color: white;
 	margin: 0 0;
+	float: left;
 }
 
 
@@ -163,8 +177,7 @@ body {
 */
 
 #calendar {
-	/*background: #EDBB99;*/
-	background: white;
+	margin-bottom: 10px;
 }
 
 #calendar-head {
@@ -197,9 +210,24 @@ body {
 	width: 100%;
 }
 
+/*
+	====================================== CATEGORIES ======================================
+*/
+
+h2, #categories .category-cell {
+	padding: 5px 10px;
+}
+
+.category-cell .title {
+	display: inline;
+}
+.category-cell span {
+	text-align: right;
+}
+
 
 /*
-	FLOATING BUTTON
+	=================================== FLOATING BUTTÒN ====================================
 */
 
 #floating-btn {
@@ -318,6 +346,11 @@ body {
 /* adds shadow to element */
 .shadow {
 	box-shadow: 0px 4px 25px black;
+}
+
+/* adds white background to element */
+.white-bg {
+	background: white;
 }
 
 /* makes elements unselectable */
