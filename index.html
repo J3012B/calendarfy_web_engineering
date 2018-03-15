@@ -78,10 +78,19 @@
 
 			<div id="categories" class="shadow white-bg">
 				<h2>Categories</h2>
+				<hr>
 				<div id="category-list"></div>
 				<div id="add-category">
-					<input type="text" maxlength=30 placeholder="Add new category">
-					<a href="#">Add</a>
+					<table>
+						<tr>
+							<td>
+								<input type="text" maxlength=30 placeholder="Add new category">
+							</td>
+							<td>
+								<div class="blue interactive button">Add</div>
+							</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 		</div>
@@ -126,6 +135,9 @@
 			<div class="cell-text-content">
 				<div class="cell-time">Start - End</div>
 				<div class="cell-date">dd-mm-yyyy</div>
+				<a href="#" class="cell-categories">
+					Categories
+				</a>
 				<div class="cell-btns">
 					<a href="#" target="_blank" class="cell-public-btn">
 						<i class="material-icons md-green">public</i>
@@ -139,7 +151,6 @@
 					<a href="#">
 						<i class="material-icons md-green cell-edit-btn">mode_edit</i>
 					</a>
-
 				</div>
 			</div>
 		</div>
@@ -147,11 +158,22 @@
 
 	<!-- Category Cell -->
 	<template id="category-cell-template">
-		<hr>
 		<div class="category-cell">
-			<div class="title">No category</div>
-			<span><a href="#" class="delete"><i class="material-icons md-dark">delete</i></a></span>	
+			<table>
+				<tr>
+					<td>
+						<div class="category-color"></div>
+					</td>
+					<td>
+						<div class="title">No category</div>
+					</td>
+					<td>
+						<span><a href="#" class="delete"><i class="material-icons md-dark">delete</i></a></span>
+					</td>
+				</tr>
+			</table>			
 		</div>
+		<hr>
 	</template>
 
 	<!-- Modal View -->

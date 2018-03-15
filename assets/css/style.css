@@ -214,15 +214,71 @@ h1, h2, h3 {
 	====================================== CATEGORIES ======================================
 */
 
-h2, #categories .category-cell {
-	padding: 5px 10px;
+#categories h2, #categories #add-category  {
+	padding: 10px 10px;
+	text-align: center;
 }
 
-.category-cell .title {
-	display: inline;
+#categories table {
+	width: 100%;
 }
-.category-cell span {
-	text-align: right;
+
+/* Whole Cell */
+#categories .category-cell {
+	padding: 5px 10px;
+}
+#categories .category-cell:hover {
+	background: #F8F9F9;
+}
+
+/* Single Sections */
+.category-cell table td:first-child {
+	width: 10px;
+}
+.category-cell table td:last-child {
+	width: 24px;
+}
+
+/* Single elements */
+.category-cell .title {
+	padding: 0 5px;
+}
+.category-cell .delete {
+	visibility: hidden;
+}
+
+/* Add Section */
+
+#add-category td {
+	padding: 0;
+}
+#add-category td:first-child {
+	text-align: left;
+}
+#add-category td:last-child {
+	width: 60px;
+}
+
+#add-category input {
+	width: 95%;
+
+	border: 0;
+	border-radius: 10px;
+	background: #EAEDED;
+	padding: 10px;
+	font-size: 16px;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+#add-category .blue.button {
+	font-size: 16px;
+	padding: 5px 10px;
+	width: 60px;
+	height: 39px;
+	border-radius: 10px;
+	line-height: 39px;
 }
 
 
@@ -243,7 +299,7 @@ h2, #categories .category-cell {
 }
 
 /*
-	MODAL VIEW
+	==================================== MODAL WINDOW ======================================
 */
 
 .modal {
@@ -276,7 +332,7 @@ h2, #categories .category-cell {
 	border: 0;
 	border-radius: 10px;
 	/*outline: 0;*/
-	background: #F4F6F6;
+	background: #EAEDED;
 	padding: 10px;
 	font-size: 16px;
 	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
@@ -361,6 +417,28 @@ h2, #categories .category-cell {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+/* represents the color dots which refer to categories */
+.category-color {
+	width: 10px;
+	height: 10px;
+	border-radius: 5px;
+	background: lightblue;
+}
+
+/* sets style for a button */
+.button {
+	display: block;
+	margin: 0;
+	font-size: 24px;
+	color: white;
+	padding: 20px;
+	cursor: pointer;
+	text-align: center;
+	
+	border-radius: 10px;
+	border: 0;
 }
 
 a {

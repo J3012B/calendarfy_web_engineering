@@ -116,6 +116,16 @@ function loadCategoryCells() {
 		const category = categories[i];
 		var cellTmpl = document.querySelector("#category-cell-template").content.cloneNode(true);
 
+		// cell
+		cellTmpl.querySelector(".category-cell").onmouseover = function() {
+			this.querySelector(".delete").style.visibility = "visible";
+		}
+		cellTmpl.querySelector(".category-cell").onmouseleave = function() {
+			this.querySelector(".delete").style.visibility = "hidden";
+		}
+
+		// color div
+		cellTmpl.querySelector(".category-color").style.background = convertTextToColor(category.name);
 		// title label
 		cellTmpl.querySelector(".title").textContent = category.name;
 		// delete button
@@ -131,7 +141,7 @@ function loadCategoryCells() {
 
 function prepareCategoryView() {
 	const textInput = document.querySelector("#add-category input");
-	const addBtn 	= document.querySelector("#add-category a");
+	const addBtn 	= document.querySelector("#add-category div.blue.button");
 
 	addBtn.onclick = function() {
 		createCategory(textInput.value);
@@ -244,12 +254,11 @@ function prepareDateFields() {
 		dateFields[1].setAttribute("min", formatDate(newStartDate, "yyyy-MM-dd")); // Minimum Date of End is updated
 		dateFields[1].value = formatDate(latestDate([newStartDate, new Date(dateFields[1].value)]), "yyyy-MM-dd");
 	});
-
 }
 
 /* user opens modal */
 function openModal(entry) {
-	var modal = document.getElementById("modal");
+	var modal 		= document.querySelector("#modal");
 
 	if (entry != null) {
 		fillModal(entry);
@@ -262,7 +271,9 @@ function openModal(entry) {
 	}
 
 	prepareDateFields() // set default values for date inputs
+
 	modal.style.display = "block"; // show modal
+	modal.scrollTo(0, 0);
 }
 
 /* Sets style and functionality of the (Create/Edit)-Button */
@@ -284,7 +295,6 @@ function setModalButton(createNew) {
 			updateEntry(retrieveModalData());
 		});
 	}
-
 }
 
 function fillModal(entry) {
@@ -410,6 +420,29 @@ function convertImageToBase64(image) {
     base64 = dataURL.replace(/^data:image\/png;base64,/, "");
     return base64;
 }
+
+// generates color from string ===============================
+function convertTextToColor(text) {
+	return "#" + intToRGB(hashCode(text));
+}
+
+function hashCode(str) { // java String#hashCode
+    var hash = 0;
+    for (var i = 0; i < str.length; i++) {
+       hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return hash;
+} 
+
+function intToRGB(i){
+    var c = (i & 0x00FFFFFF)
+        .toString(16)
+        .toUpperCase();
+
+    return "00000".substring(0, 6 - c.length) + c;
+}
+
+// ===========================================================
 
 
 
