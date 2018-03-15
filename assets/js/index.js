@@ -116,11 +116,16 @@ function loadCategoryCells() {
 		const category = categories[i];
 		var cellTmpl = document.querySelector("#category-cell-template").content.cloneNode(true);
 
+		// title label
 		cellTmpl.querySelector(".title").textContent = category.name;
+		// delete button
+		cellTmpl.querySelector(".delete").onclick = function() {
+			const category = categories[getIndexOfElement(this, ".category-cell .delete")];
+			console.log("Will delete category with id " + category.id + "");
+			deleteCategory(category.id);
+		}
 
 		categoryList.append(cellTmpl);
-
-		console.log(category.name);
 	}
 }
 
@@ -406,9 +411,6 @@ function convertImageToBase64(image) {
     return base64;
 }
 
-// function convertImageToBase64(file) {
-// 	
-// }
 
 
 
@@ -573,6 +575,17 @@ function createCategory(name) {
 		}
 	});
 	request.send(JSON.stringify(data));
+}
+
+function deleteCategory(categoryID) {
+	makeRequest(requestType.DELETE, url + "/categories/" + categoryID, function(request, event) {
+		if (request.status >= 200 && request.status < 300) {
+			console.log("Deleted category with id " + categoryID + "successfully");
+			window.location.reload(true);
+		} else {
+			console.warn(request.statusText, request.responseText);
+		}
+	});
 }
 
 
