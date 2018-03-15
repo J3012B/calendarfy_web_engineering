@@ -78,14 +78,17 @@ function loadCells(entries) {
 		cellTmpl.querySelector(".cell-time").innerText = startTime + " - " + endTime;
 		cellTmpl.querySelector(".cell-date").innerText = startDate;
 		// Categories
+		if (entry.categories.length == 0) {
+			cellTmpl.querySelector(".cell-categories").innerHTML = '<div><i class="material-icons">assignment</i> <b>Assign categories</b></div>';
+		}
 		cellTmpl.querySelector(".cell-categories").onclick = function() {
 			var entry = entries[getIndexOfElement(this, ".cell-categories")];
 
 			openCategoryModal(entry);
 		}
-		for (var j = 0; j < categories.length; j++) {
-			const category = categories[j];
-			cellTmpl.querySelector(".cell-categories").innerHTML += '<div class="category-color" style="background: ' + convertTextToColor(category.name) + '""></div>';
+		for (var j = 0; j < entry.categories.length; j++) {
+			const category = entry.categories[j];
+			cellTmpl.querySelector(".cell-categories").innerHTML += '<div class="category-color tooltip" style="background: ' + convertTextToColor(category.name) + '"><span class="tooltiptext">' + category.name + '</span></div>';
 		}
 		// Buttons
 		cellTmpl.querySelector(".cell-email-btn").setAttribute("href", "mailto:" + entry.organizer);
@@ -211,12 +214,14 @@ function loadCategoryModal() {
 	const catModal 	= document.querySelector("#category-modal");
 	const catList 	= catModal.querySelector(".categories");
 
-
 	for (var i = 0; i < categories.length; i++) {
 		const category = categories[i];
 
 		const cellTmpl = document.querySelector("#cat-modal-cell-template").content.cloneNode(true);
 
+		// Color
+		cellTmpl.querySelector(".category-color").style.background = convertTextToColor(category.name);
+		// Title
 		cellTmpl.querySelector(".title").textContent = category.name;
 
 		catList.append(cellTmpl);
@@ -226,6 +231,9 @@ function loadCategoryModal() {
 function openCategoryModal(entry) {
 	const catModal 	= document.querySelector("#category-modal");
 	const submitBtn = catModal.querySelector(".blue.button");
+
+	// set title
+	catModal.querySelector("h2").textContent = entry.title;
 
 	// show category modal
 	catModal.style.display = "block";

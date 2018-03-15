@@ -30,6 +30,7 @@ h1, h2, h3 {
     top: 0; /* Position the navbar at the top of the page */
     width: 100%; /* Full width */
     color: white;
+    z-index: 2;
 }
 
 #navbar a {
@@ -60,9 +61,9 @@ h1, h2, h3 {
 #body-container {
 	margin: 123px auto; /* 93px (Navbar height) + 30px (Margin-top) = 123px */
 	margin-bottom: 100px;
-	padding: 30px;
+	padding: 30px 60px;
 	max-width: 1000px;
-	width: 95%;
+	width: 100%;
 	background: transparent;
 	float: center;
 	overflow: hidden;
@@ -149,9 +150,19 @@ h1, h2, h3 {
 	font-size: 15px;
 }
 .cell-text-content .cell-categories {
-	overflow: hidden;
+	/*overflow: hidden;*/
 	margin-top: 8px;
 	cursor: pointer;
+}
+.cell-text-content .cell-categories b {
+	height: 24px;
+	line-height: 24px;
+}
+.cell-text-content .cell-categories > div {
+	color: rgba(20, 143, 119, 1);
+}
+.cell-text-content .cell-categories > div:hover {
+	color: #0E6251;
 }
 .cell-text-content .category-color {
 	margin-right: 10px;
@@ -291,11 +302,32 @@ h1, h2, h3 {
 	=================================== CATEGORY MODAL =====================================
 */
 
+#category-modal h2 {
+	margin-bottom: 20px;
+}
 #category-modal .button {
 	width: 90%;
-	max-width: 250px;
+	max-width: 150px;
 	margin: 30px auto;
 	margin-bottom: 0;
+}
+
+/* Category Modal Cell */
+
+#category-modal .cat-modal-cell {
+	padding: 5px;
+}
+#category-modal .cat-modal-cell table {
+	width: 100%;
+}
+#category-modal .cat-modal-cell td:first-child {
+	width: 15px;
+}
+#category-modal .cat-modal-cell td:last-child {
+	width: 15px;
+}
+#category-modal .cat-modal-cell input {
+	margin: 0;
 }
 
 /*
@@ -321,7 +353,7 @@ h1, h2, h3 {
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 3; /* Sit on top */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -394,7 +426,6 @@ h1, h2, h3 {
 	margin-bottom: 0;
 	font-size: 24px;
 	color: white;
-	padding: 20px;
 	cursor: pointer;
 	text-align: center;
 	
@@ -446,16 +477,51 @@ h1, h2, h3 {
 /* sets style for a button */
 .button {
 	display: block;
-	margin: 0;
 	font-size: 24px;
 	color: white;
-	padding: 20px;
+	padding: 10px;
 	cursor: pointer;
 	text-align: center;
 	
 	border-radius: 10px;
 	border: 0;
 }
+
+/* displays a tool tip */
+.tooltip {
+	position: relative;
+	display: inline-block;
+}
+.tooltip .tooltiptext {
+	visibility: hidden;
+	width: 120px;
+	background-color: #2C3E50;
+	color: white;
+	text-align: center;
+	padding: 5px 0;
+	border-radius: 6px;
+
+	position: absolute;
+	z-index: 1;
+    bottom: 160%;
+    left: 50%; 
+    margin-left: -60px;
+}
+.tooltip:hover .tooltiptext {
+	visibility: visible;
+}
+.tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    top: 100%; /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #2C3E50 transparent transparent transparent;
+}
+
+
 
 a {
 	text-decoration: none;
