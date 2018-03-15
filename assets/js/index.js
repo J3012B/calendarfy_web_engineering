@@ -112,18 +112,6 @@ function loadCells(entries) {
 function loadCategoryCells() {
 	const categoryList = document.querySelector("#category-list");
 
-	categories = [
-		{
-			name: "Family"
-		},
-		{
-			name: "Private"
-		},
-		{
-			name: "Work"
-		}
-	];
-
 	for (var i = 0; i < categories.length; i++) {
 		const category = categories[i];
 		var cellTmpl = document.querySelector("#category-cell-template").content.cloneNode(true);
@@ -398,6 +386,13 @@ function sortEntriesByDate(entries) {
 	});
 }
 
+// Sorts array of objects by specified property
+function sortBy(array, property) {
+	return array.sort(function(a, b) {
+		return a[property] > b[property];
+	});
+}
+
 // encodes images with base64
 function convertImageToBase64(image) {
     var canvas, ctx, dataURL, base64;
@@ -551,6 +546,7 @@ function loadCategories() {
 	makeRequest(requestType.GET, url + "/categories", function(request, event) {
 		if (request.status >= 200 && request.status < 300) {
 			categories = JSON.parse(request.responseText);
+			sortBy(categories, "name");
 
 			console.log("Fetched categories successfully (loaded " + categories.length + ")");
 			loadCategoryCells();
