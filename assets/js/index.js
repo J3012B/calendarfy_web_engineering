@@ -20,7 +20,6 @@ var requestType = Object.freeze({"GET": "GET", "POST": "POST", "DELETE": "DELETE
 var entries = []; // all entries loaded
 var categories = []; // all categories loaded
 var currentMonth = new Date(); // date for month shown in calendar head
-var modalID = 0; // ID of entry shown in modal
 
 
 /*
@@ -81,6 +80,7 @@ function loadCells(entries) {
 		// Categories
 		cellTmpl.querySelector(".cell-categories").onclick = function() {
 			var entry = entries[getIndexOfElement(this, ".cell-categories")];
+
 			openCategoryModal(entry);
 		}
 		for (var j = 0; j < categories.length; j++) {
@@ -207,12 +207,58 @@ function openImgModal(entry) {
 	CATEGORY MODAL ============================================
 */
 
-function openCategoryModal(entry) {
-	var catModal = document.querySelector("#category-modal");
-	//var catModalWindow = document.querySelector("#category-modal .modal-window");
+function loadCategoryModal() {
+	const catModal 	= document.querySelector("#category-modal");
+	const catList 	= catModal.querySelector(".categories");
 
+
+	for (var i = 0; i < categories.length; i++) {
+		const category = categories[i];
+
+		const cellTmpl = document.querySelector("#cat-modal-cell-template").content.cloneNode(true);
+
+		cellTmpl.querySelector(".title").textContent = category.name;
+
+		catList.append(cellTmpl);
+	}
+}
+
+function openCategoryModal(entry) {
+	const catModal 	= document.querySelector("#category-modal");
+	const submitBtn = catModal.querySelector(".blue.button");
+
+	// show category modal
 	catModal.style.display = "block";
 
+	// fill category modal with the entry data (true or false)
+	for (var i = 0; i < categories.length; i++) {
+		const category = categories[i];
+		const checkbox = catModal.querySelectorAll('input[type="checkbox"]')[i];
+
+		checkbox.checked = false;
+
+		for (var j = 0; j < entry.categories.length; j++) {
+			if (entry.categories[j].name === category.name) {
+				checkbox.checked = true;
+				break;
+			}
+		}
+	}
+
+	// update entry, when button is clicked
+	submitBtn.onclick = function() {
+		entry.categories = [];
+		for (var i = 0; i < categories.length; i++) {
+			const category = categories[i];
+			const checkboxValue = catModal.querySelectorAll('input[type="checkbox"]')[i].checked;
+
+			if (checkboxValue != false) {
+				entry.categories.push(category);
+			}
+		}
+
+		updateEntry(entry)
+	}
 }
 
 /*
@@ -257,12 +303,6 @@ function prepareModals() {
 	        this.value = "";
 	    };
 	}
-
-	/*
-		Category Modal
-	*/
-
-
 }
 
 /* prepares date fields in modal with default values */
@@ -275,7 +315,7 @@ function prepareDateFields() {
 	dateFields[0].setAttribute("min", today);
 	dateFields[1].value = today;
 	dateFields[1].setAttribute("min", today);
-
+	
 	// Start Date Field did change
 	dateFields[0].addEventListener("change", function() {
 		var newStartDate = new Date(this.value); // User set a new start date
@@ -288,29 +328,27 @@ function prepareDateFields() {
 function openModal(entry) {
 	var modal = document.querySelector("#modal");
 
-	if (entry != null) {
-		fillModal(entry);
-		setModalButton(false);
-
-		modalID = entry.id
-	} else {
-		clearModal();
-		setModalButton(true);
-	}
-
 	prepareDateFields() // set default values for date inputs
 
+	if (entry != null) {
+		fillModal(entry);
+		setModalButton(entry.id) // prepares the submit button (create new OR update old)
+	} else {
+		clearModal();
+		setModalButton(null);
+	}
+	
 	modal.style.display = "block"; // show modal
 	modal.scrollTo(0, 0);
 }
 
 /* Sets style and functionality of the (Create/Edit)-Button */
-function setModalButton(createNew) {
+function setModalButton(id) {
 	var modalButton = $("#modal .submit-btn");
 
 	modalButton.off("click"); // remove event from button
 
-	if (createNew) {
+	if (!id) {
 		modalButton.text("Create Entry");
 		modalButton.removeClass("orange").addClass("blue");
 		modalButton.on("click", function() {
@@ -320,7 +358,9 @@ function setModalButton(createNew) {
 		modalButton.text("Update Entry");
 		modalButton.removeClass("blue").addClass("orange");
 		modalButton.on("click", function() {
-			updateEntry(retrieveModalData());
+			const data = retrieveModalData();
+			data.id = id;
+			updateEntry(data);
 		});
 	}
 }
@@ -352,8 +392,8 @@ function clearModal() {
 	$(".modal-window #webpage-tf").val("");
 }
 function retrieveModalData() {
-	var start = $("#start-date-field").val() + "T" + $("#start-time-field").val().substring(0,5);
-	var end = $("#end-date-field").val() + "T" + $("#end-time-field").val().substring(0,5);
+	const start = $("#start-date-field").val() + "T" + $("#start-time-field").val().substring(0,5);
+	const end = $("#end-date-field").val() + "T" + $("#end-time-field").val().substring(0,5);
 
 	var data = {
 	    "title": $(".modal-window #title-tf").val(),
@@ -393,8 +433,6 @@ function increaseMonth() {
 	currentMonth = new Date(currentMonth.setMonth(new Date(currentMonth.setDate(1)).getMonth() + 1));
 	updateCalendarMonthLbl();
 }
-/* modal:  */
-
 
 
 /*
@@ -434,6 +472,16 @@ function sortBy(array, property) {
 	return array.sort(function(a, b) {
 		return a[property] > b[property];
 	});
+}
+
+// Checks if array contains specified item
+function arrayContainsItem(array, item) {
+	for (var i = 0; i < array.length; i++) {
+		if (array[i] === item) {
+			return true;
+		}
+	}
+	return false;
 }
 
 // encodes images with base64
@@ -541,18 +589,21 @@ function createEntry(data) {
 }
 
 function updateEntry(data) {
+	/*
 	console.log("Update entry with id " + modalID);
 	console.log(data);
 
 	data.id = modalID;
 
+	*/
+
 	// PUT new entry data to specific id
 	var request = new XMLHttpRequest();
-	request.open("PUT", url + "/events/" + modalID);
+	request.open("PUT", url + "/events/" + data.id);
 	request.setRequestHeader("Content-type", "application/json", true);
 	request.addEventListener("load", function() {
 		if (request.status >= 200 && request.status < 300) {
-			console.log("Updated entry with id " + modalID + ": \n" + request.responseText);
+			console.log("Updated entry with id " + data.id + ": \n" + request.responseText);
 			window.location.reload(true);
 		} else {
 			console.warn(request.statusText, request.responseText);
@@ -614,6 +665,7 @@ function loadCategories() {
 			console.log("Fetched categories successfully (loaded " + categories.length + ")");
 			loadCategoryCells();
 			loadEntries(); // GET Event Data & create list cells
+			loadCategoryModal();
 		} else {
 			console.warn(request.statusText, request.responseText);
 		}

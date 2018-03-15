@@ -14,5 +14,9 @@ TODO:
 	* Chrome
 	* Firefox
 
+- Hover Popups für die Categories in den Entry Cells
+
+- Bild zoomt wenn man in einer entry cell drüberhovert
+
 - Floating Button und Edit Button als Div
 	-> sorgt dafür, dass die Seite nicht nach oben springt, wenn ein Modal geöffnet wird!
