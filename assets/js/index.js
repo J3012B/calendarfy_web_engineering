@@ -105,6 +105,10 @@ function loadCells(entries) {
 
 }
 
+/*
+	================================================ CATEGORY VIEW ================================================
+*/
+
 function loadCategoryCells() {
 	const categoryList = document.querySelector("#category-list");
 
@@ -129,6 +133,16 @@ function loadCategoryCells() {
 		categoryList.append(cellTmpl);
 
 		console.log(category.name);
+	}
+}
+
+function prepareCategoryView() {
+	const textInput = document.querySelector("#add-category input");
+	const addBtn 	= document.querySelector("#add-category a");
+
+	addBtn.onclick = function() {
+		createCategory(textInput.value);
+		textInput.value = "";
 	}
 }
 
@@ -498,8 +512,6 @@ function addImageToEntry(encodedImage, entryID) {
 		imagedata: encodedImage
 	};
 
-	console.log("Will upload: " + JSON.stringify(data));
-
 	var request = new XMLHttpRequest();
 	request.open("POST", url + "/images/" + entryID);
 	request.setRequestHeader("Content-type", "application/json", true);
@@ -548,6 +560,25 @@ function loadCategories() {
 	});
 }
 
+function createCategory(name) {
+	var data = {
+		name: name
+	};
+
+	var request = new XMLHttpRequest();
+	request.open(requestType.POST, url + "/categories");
+	request.setRequestHeader("Content-type", "application/json", true);
+	request.addEventListener("load", function() {
+		if (request.status >= 200 && request.status < 300) {
+			console.log("Created new category '" + name + "' successfully");
+			window.location.reload(true);
+		} else {
+			console.warn(request.statusText, request.responseText);
+		}
+	});
+	request.send(JSON.stringify(data));
+}
+
 
 
 
@@ -580,7 +611,12 @@ $(document).ready(function() {
 
 	loadEntries(); // GET Event Data & create list cells
 	loadCategories(); // GET list with all categories
+
+	// Category View
+	prepareCategoryView();
+	// Calendar View
 	updateCalendarMonthLbl();
+	// Modals
 	prepareModals();
 
 });
