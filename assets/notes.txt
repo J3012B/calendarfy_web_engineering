@@ -1,5 +1,7 @@
 TODO:
 
+MUST:
+
 - Month/Week/Day View
 	* füge buttons in die nav bar hinzu
 
@@ -14,9 +16,35 @@ TODO:
 	* Chrome
 	* Firefox
 
-- Hover Popups für die Categories in den Entry Cells
 
-- Bild zoomt wenn man in einer entry cell drüberhovert
+
+
+SHOULD:
+
+- Dokumentation schreiben
+	* Welche advanced feautures hat der Kalender?
+	* Wie benutzt man den Kalender?
+
+- Validity von HTML/CSS/JS/AJAX
+
+- Toast
 
 - Floating Button und Edit Button als Div
 	-> sorgt dafür, dass die Seite nicht nach oben springt, wenn ein Modal geöffnet wird!
+
+
+
+
+CAN:
+
+- Reminders?
+
+- Habe ich alle Technologien benutzt?
+
+- Source Code Qualität
+	* files modular gestalten
+	* Kommentare
+
+- Hover Popups für die Categories in den Entry Cells
+
+- Bild zoomt wenn man in einer entry cell drüberhovert
