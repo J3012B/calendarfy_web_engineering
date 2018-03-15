@@ -36,7 +36,13 @@ var cells = [];
 
 
 /*
-	FRONTEND -----------------------------------------------------------------------------------
+	==========================================================================================================
+	================================================ FRONTEND ================================================
+	==========================================================================================================
+*/
+
+/*
+	=========================================== LIST VIEW ============================================
 */
 
 // load cells into list view
@@ -117,8 +123,19 @@ function loadCells(entries) {
 
 }
 
+
 /*
-	================================================ CATEGORY VIEW ================================================
+	========================================= CALENDAR VIEW ==========================================
+*/
+
+function updateCalendarMonthLbl() {
+	var monthLbl = document.querySelector("#calendar-head div");
+
+	monthLbl.innerText = $.format.date(currentMonth, "MMMM yyyy");;
+}
+
+/*
+	========================================= CATEGORY VIEW ==========================================
 */
 
 function loadCategoryCells() {
@@ -161,11 +178,9 @@ function prepareCategoryView() {
 	}
 }
 
-function updateCalendarMonthLbl() {
-	var monthLbl = document.querySelector("#calendar-head div");
-
-	monthLbl.innerText = $.format.date(currentMonth, "MMMM yyyy");;
-}
+/*
+	============================================ MODALS ==============================================
+*/
 
 /*
 	IMAGE MODAL ===============================================
@@ -419,11 +434,11 @@ function retrieveModalData() {
 }
 
 /*
-	Message Toast
+	TOAST =====================================================
 */
 
 function printToast(message) {
-	console.warn(message);
+	
 }
 
 
@@ -444,7 +459,9 @@ function increaseMonth() {
 
 
 /*
-	Convert/Format ---------------------------------------------------------------------------------------
+	==========================================================================================================
+	============================================= CONVERT/FORMAT =============================================
+	==========================================================================================================
 */
 
 // Takes date and returns formatted date string
@@ -538,7 +555,9 @@ function intToRGB(i){
 
 
 /*
-	BACKEND ---------------------------------------------------------------------------------------
+	==========================================================================================================
+	================================================ BACKEND =================================================
+	==========================================================================================================
 */
 
 function makeRequest(requestType, requestURL, callback) {
@@ -595,16 +614,7 @@ function createEntry(data) {
 	});
 	request.send(JSON.stringify(data));
 }
-
 function updateEntry(data) {
-	/*
-	console.log("Update entry with id " + modalID);
-	console.log(data);
-
-	data.id = modalID;
-
-	*/
-
 	// PUT new entry data to specific id
 	var request = new XMLHttpRequest();
 	request.open("PUT", url + "/events/" + data.id);
@@ -679,7 +689,6 @@ function loadCategories() {
 		}
 	});
 }
-
 function createCategory(name) {
 	var data = {
 		name: name
@@ -698,7 +707,6 @@ function createCategory(name) {
 	});
 	request.send(JSON.stringify(data));
 }
-
 function deleteCategory(categoryID) {
 	makeRequest(requestType.DELETE, url + "/categories/" + categoryID, function(request, event) {
 		if (request.status >= 200 && request.status < 300) {
@@ -724,7 +732,9 @@ function deleteCategory(categoryID) {
 
 
 /*
-	Document loaded ---------------------------------------------------------------------------------------
+	==========================================================================================================
+	============================================ DOCOUMENT LOADED ============================================
+	==========================================================================================================
 */
 
 $(document).ready(function() {
