@@ -1,5 +1,7 @@
 
+.gray {
 
+}
 
 .blue {
 	background: #3498DB;
@@ -12,7 +14,9 @@
 
 
 
+.interactive.gray:hover {
 
+}
 
 .interactive.blue:hover {
 	background: #2874A6;;

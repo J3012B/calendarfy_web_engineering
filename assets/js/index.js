@@ -78,6 +78,15 @@ function loadCells(entries) {
 		var endTime = formatDate(entry.end + ":00Z", "HH:mm");
 		cellTmpl.querySelector(".cell-time").innerText = startTime + " - " + endTime;
 		cellTmpl.querySelector(".cell-date").innerText = startDate;
+		// Categories
+		cellTmpl.querySelector(".cell-categories").onclick = function() {
+			var entry = entries[getIndexOfElement(this, ".cell-categories")];
+			openCategoryModal(entry);
+		}
+		for (var j = 0; j < categories.length; j++) {
+			const category = categories[j];
+			cellTmpl.querySelector(".cell-categories").innerHTML += '<div class="category-color" style="background: ' + convertTextToColor(category.name) + '""></div>';
+		}
 		// Buttons
 		cellTmpl.querySelector(".cell-email-btn").setAttribute("href", "mailto:" + entry.organizer);
 		if (entry.webpage != null) {
@@ -195,17 +204,30 @@ function openImgModal(entry) {
 }
 
 /*
+	CATEGORY MODAL ============================================
+*/
+
+function openCategoryModal(entry) {
+	var catModal = document.querySelector("#category-modal");
+	//var catModalWindow = document.querySelector("#category-modal .modal-window");
+
+	catModal.style.display = "block";
+
+}
+
+/*
 	MODAL =====================================================
 */
 
 /* prepares modal for showing */
 function prepareModals() {
-	const modal = document.querySelector("#modal");
-	const imgModal = document.querySelector("#img-modal");
+	const modal 		= document.querySelector("#modal");
+	const imgModal 		= document.querySelector("#img-modal");
+	const categoryModal = document.querySelector("#category-modal");
 
 	// When the user clicks anywhere outside of the modal, close it
 	window.addEventListener("click", function(event) {
-	    if (event.target == modal || event.target == imgModal) {
+	    if (event.target == modal || event.target == imgModal || event.target == categoryModal) {
 	        event.target.style.display = "none";
 	    }
 	});
@@ -235,6 +257,12 @@ function prepareModals() {
 	        this.value = "";
 	    };
 	}
+
+	/*
+		Category Modal
+	*/
+
+
 }
 
 /* prepares date fields in modal with default values */
@@ -258,7 +286,7 @@ function prepareDateFields() {
 
 /* user opens modal */
 function openModal(entry) {
-	var modal 		= document.querySelector("#modal");
+	var modal = document.querySelector("#modal");
 
 	if (entry != null) {
 		fillModal(entry);
@@ -585,6 +613,7 @@ function loadCategories() {
 
 			console.log("Fetched categories successfully (loaded " + categories.length + ")");
 			loadCategoryCells();
+			loadEntries(); // GET Event Data & create list cells
 		} else {
 			console.warn(request.statusText, request.responseText);
 		}
@@ -650,8 +679,6 @@ $(document).ready(function() {
 	// Floating Button
 	document.getElementById("floating-btn").onclick = function() { openModal(null); }
 
-
-	loadEntries(); // GET Event Data & create list cells
 	loadCategories(); // GET list with all categories
 
 	// Category View

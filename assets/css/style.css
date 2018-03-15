@@ -83,7 +83,7 @@ h1, h2, h3 {
 }
 
 /*
-	LIST
+	======================================== LIST ========================================
 */
 
 #list {
@@ -91,11 +91,11 @@ h1, h2, h3 {
 	background: #2C3E50;
 }
 
+/* cell general */
 .cell {
 	background: white;
 	margin-bottom: 1px;
 }
-
 .cell-img {
 	height: 200px;
 	background-size:     cover;
@@ -105,6 +105,7 @@ h1, h2, h3 {
 
 }
 
+/* image section */
 .cell-img-content {
 	height: 200px;
 	padding: 20px;
@@ -112,23 +113,19 @@ h1, h2, h3 {
 	color: white;
 	text-shadow: 2px 4px 8px #000000;
 }
-
 .cell-title {
 	font-size: 40px;
 }
-
 .cell-location {
 	font-size: 20px;
 	display: inline;
 }
-
 .cell-img-content a.cell-location-btn {
 	margin-left: 10px;
 }
 .cell-img-content a.cell-location-btn i.cell-pin:hover {
 	color: #E74C3C;
 }
-
 .cell-img-content .cell-img-handling {
 	margin-top: 65px;
 }
@@ -139,25 +136,31 @@ h1, h2, h3 {
 	color: #D5D8DC;
 }
 
+/* text section */
 .cell-text-content {
 	padding: 10px;
 }
-
 .cell-time {
 	font-size: 20px;
 	font-weight: bold;
 }
-
 .cell-date {
 	margin-top: 5px;
 	font-size: 15px;
-}  
-
+}
+.cell-text-content .cell-categories {
+	overflow: hidden;
+	margin-top: 8px;
+	cursor: pointer;
+}
+.cell-text-content .category-color {
+	margin-right: 10px;
+	float: left;
+}
 .cell-btns {
 	text-align: right;
 	overflow: hidden;
 }
-
 .cell-btns i {
 	display: inline;
 	margin-left: 20px;
@@ -246,6 +249,9 @@ h1, h2, h3 {
 .category-cell .delete {
 	visibility: hidden;
 }
+.category-cell .delete i:hover {
+	color: rgba(0,0,0,0.35);
+}
 
 /* Add Section */
 
@@ -278,9 +284,19 @@ h1, h2, h3 {
 	width: 60px;
 	height: 39px;
 	border-radius: 10px;
-	line-height: 39px;
+	line-height: 30px;
 }
 
+/*
+	=================================== CATEGORY MODAL =====================================
+*/
+
+#category-modal .button {
+	width: 90%;
+	max-width: 250px;
+	margin: 30px auto;
+	margin-bottom: 0;
+}
 
 /*
 	=================================== FLOATING BUTTÒN ====================================

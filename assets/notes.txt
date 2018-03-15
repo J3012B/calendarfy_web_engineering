@@ -1,0 +1,18 @@
+TODO:
+
+- Month/Week/Day View
+	* füge buttons in die nav bar hinzu
+
+- Kalender fertig
+	* Interaktion
+	* Richtige Anzeige der Zahlen
+
+- Error Handling
+	* Toast einbauen
+
+- 2 Browser testen
+	* Chrome
+	* Firefox
+
+- Floating Button und Edit Button als Div
+	-> sorgt dafür, dass die Seite nicht nach oben springt, wenn ein Modal geöffnet wird!
