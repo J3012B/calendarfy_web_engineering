@@ -26,9 +26,39 @@
 	<!-- *************************** NAV BAR *****************************  -->
 	<div id="navbar" class="shadow">
 		<a href="#" id="calendarfy-logo">Calendarfy</a>
-		<div class="nav-bar-container">
-			<!-- Period View (today/week/month) -->
+		<div id="picker-container">
+			<div id="period-view">
+				Jul 16 - Jul 23
+			</div>
+			<select id="period-picker">
+				<option>Day</option>
+				<option>Week</option>
+				<option>Month</option>
+			</select>
 		</div>
+
+
+		<!--
+		<table>
+			<tr>
+				<td>
+					<a href="#" id="calendarfy-logo">Calendarfy</a>
+				</td>
+				<td>
+					<div id="picker-container">
+						<select id="period-picker">
+							<option>Day</option>
+							<option>Week</option>
+							<option>Month</option>
+						</select>
+						<div id="period-view" class="white">
+							Jul 16 - Jul 23
+						</div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	-->
 	</div>
 
 	<!-- *****************************************************************  -->
@@ -43,7 +73,7 @@
 
 		<!-- Calendar View -->
 		<div id="body-calendar">
-			<div id="calendar" class="shadow white-bg">
+			<div id="calendar" class="shadow white">
 				<div class="unselectable" id="calendar-head">
 					<a>
 						<i class="material-icons md-dark md-36 unselectable">keyboard_arrow_left</i>
@@ -79,7 +109,7 @@
 				</div>
 			</div>
 
-			<div id="categories" class="shadow white-bg">
+			<div id="categories" class="shadow white">
 				<h2>Categories</h2>
 				<hr>
 				<div id="category-list"></div>

@@ -7,6 +7,7 @@ body {
 	background-position: center:
 	background-size: cover;
 	background-attachment: fixed;
+	background-repeat: repeat;
 }
 
 h1, h2, h3 {
@@ -48,6 +49,37 @@ h1, h2, h3 {
 	margin: 0 0;
 	float: left;
 }
+
+#navbar > table td:last-child {
+	width: 100%;
+	text-align: right;
+	padding: 0;
+}
+
+#picker-container {
+	overflow: hidden;
+	position: absolute;
+	left: 35%;
+	width: 30%;
+	min-width: 300px;
+}
+#period-view {
+	float: left;
+	width: 60%;
+	margin: 0;
+	border-radius: 5px;
+	background: #17A589;
+	text-align: center;
+	padding: 5px;
+	font-size: 1.25em;
+}
+#period-picker {
+	float: left;
+	width: 35%;
+	margin-left: 5%;
+}
+
+
 
 
 
@@ -449,11 +481,6 @@ h1, h2, h3 {
 /* adds shadow to element */
 .shadow {
 	box-shadow: 0px 4px 25px black;
-}
-
-/* adds white background to element */
-.white-bg {
-	background: white;
 }
 
 /* makes elements unselectable */
