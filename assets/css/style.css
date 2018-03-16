@@ -282,6 +282,24 @@ h1, h2, h3 {
 #calendar-body table td {
 	width: 14.285%;
 	text-align: center;
+	height: 30px;
+	padding: 0;
+}
+
+#calendar-body table td div {
+	width: 30px;
+	height: 30px;
+	margin: auto;
+	line-height: 30px;
+	border-radius: 15px;
+	cursor: pointer;
+}
+#calendar-body table td div:hover {
+	background: #F2F3F4;
+}
+#calendar-body table td div.selected {
+	background: #E74C3C;
+	color: white;
 }
 
 /*

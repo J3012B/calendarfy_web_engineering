@@ -166,32 +166,39 @@ function updateCalendar() {
 	calendarField.innerHTML = "";
 	const daysInCurrentMonth = getDaysInMonth(_currentMonth.getMonth(), _currentMonth.getFullYear());
 	var weekDayOfFirst = new Date(_currentMonth.getFullYear(), _currentMonth.getMonth(), 1).getDay() - 1;
-	weekDayOfFirst = (weekDayOfFirst < 0) ? 6 : weekDayOfFirst;
-
+	weekDayOfFirst = (weekDayOfFirst < 0) ? 6 : weekDayOfFirst; // week day number of first day in current month
 
 	var newTableBody = "<tr>";
-
-	console.log("Week day of first is: " + weekDayOfFirst);
-
+	// generate empty cells in the beginning
 	for (var i = 0; i < weekDayOfFirst; i++) {
 		newTableBody += "<td></td>";
 	}
+	// generate the row with the first days
 	for(var i = 0; i < 7 - weekDayOfFirst; i++) {
-		newTableBody += "<td name=\"" + (i+1) + "\">" + (i+1) + "</td>";
+		newTableBody += "<td><div name=\"" + (i+1) + "\">" + (i+1) + "</div></td>";
 	}
 	newTableBody += "</tr>";
 
+	// generate row 2 - row N
 	const offset = 7 - weekDayOfFirst;
 	for (var i = 0; i < daysInCurrentMonth - offset; i++) {
-
 		newTableBody += ((i % 7 == 0) ? "<tr>" : "");
-
-		newTableBody += ("<td name=\"" + (i+1+offset) + "\">" + (i+1+offset) + "</td>");
-
+		newTableBody += ("<td><div name=\"" + (i+1+offset) + "\">" + (i+1+offset) + "</div></td>");
 		newTableBody += ((i % 7 == 6) ? "</tr>" : "");
 	}
 
 	calendarField.innerHTML = newTableBody;
+
+	/* Selection in Calendar Field */
+
+	if (new Date(_currentMonth).getMonth() === new Date(_currentDate).getMonth()) {
+		const dateOfCurrentDate = new Date(_currentDate).getDate();
+		const dateFieldToSelect = document.getElementsByName(""+dateOfCurrentDate)[0];
+
+		console.log("Current date is : " + dateOfCurrentDate);
+
+		dateFieldToSelect.className += " selected";
+	}
 
 	
 }
