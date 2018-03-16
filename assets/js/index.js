@@ -18,7 +18,9 @@ var requestType = Object.freeze({"GET": "GET", "POST": "POST", "DELETE": "DELETE
 */
 
 var entries = []; // all entries loaded
+var entriesToShow = []; // filtered entries
 var categories = []; // all categories loaded
+var currentDate = new Date();
 var currentMonth = new Date(); // date for month shown in calendar head
 
 
@@ -48,6 +50,7 @@ var cells = [];
 // load cells into list view
 function loadCells(entries) {
 	cells = [];
+	$list.innerHTML = "";
 
 	for (var i = 0; i < entries.length; i++) {
 		var entry = entries[i];
@@ -112,21 +115,38 @@ function loadCells(entries) {
 		}
 
 
-		var cell = cellTmpl.querySelector(".cell");
-		cells.push(cell);
+		/*var cell = cellTmpl.querySelector(".cell");
+		cells.push(cell);*/
 
 		$list.append(cellTmpl);
 	
 	}
 
 	cells = document.querySelectorAll(".cell");
-
 }
 
 
 /*
 	========================================= CALENDAR VIEW ==========================================
 */
+
+function preparePeriodPicker() {
+	const periodPicker = document.querySelector("#period-picker");
+
+	periodPicker.onchange = function() {
+		switch (this.value) {
+			case "Day":
+				entriesToShow = filterEntriesByDateRange();
+				break;
+			case "Week":
+				entriesToShow = filterEntriesByDateRange();
+				break;
+			default:
+				entriesToShow = filterEntriesByDateRange();
+		};
+		loadCells(entriesToShow);
+	};
+}
 
 function updateCalendarMonthLbl() {
 	var monthLbl = document.querySelector("#calendar-head div");
@@ -488,7 +508,7 @@ function getIndexOfElement(element, selector) {
 // Sorts entries by date
 function sortEntriesByDate(entries) {
 	return entries.sort(function(a, b) {
-    	return new Date(b.start) - new Date(a.start);
+    	return new Date(a.start) - new Date(b.start);
 	});
 }
 
@@ -509,18 +529,69 @@ function arrayContainsItem(array, item) {
 	return false;
 }
 
-// encodes images with base64
-function convertImageToBase64(image) {
-    var canvas, ctx, dataURL, base64;
-    canvas = document.createElement("canvas");
-    ctx = canvas.getContext("2d");
-    canvas.width = image.width;
-    canvas.height = image.height;
-    ctx.drawImage(image, 0, 0);
-    dataURL = canvas.toDataURL("image/png");
-    base64 = dataURL.replace(/^data:image\/png;base64,/, "");
-    return base64;
+// returns all entries, which begin in the specified range
+function filterEntriesByDateRange(array, start, end) {
+	var result = [];
+
+	for (var i = 0; i < array.length; i++) {
+		const item = array[i];
+
+		if (something) {
+			result.push(item);
+		}
+	}
+
+	return result;
 }
+
+// returns a start and an end date (f.i. 23.03.18) which represents either the 
+//		1. day of a date    -> start: 0:00 23.03.18, end: 23:59 23.03.18
+//		2. week of a date   -> start: 0:00 19.03.18, end: 23:59 25.03.18
+//		3. month of a date  -> start: 0:00  1.03.18, end: 23:59 31.03.18
+function getRangeOfDate(date, rangeName) {
+	var start = date;
+	var end = date;
+
+	switch (rangeName) {
+		case "Day":
+			start = start.setHours(0, 0, 0);
+			end = end.setHours(23, 59, 59);
+			break;
+		case "Week":
+			start = getMonday(start).setHours(0, 0, 0);
+			end = getSunday(end).setHours(23, 59, 0);
+			break;
+		default:
+			start = new Date(start.getFullYear(), start.getMonth(), 1);
+			end = new Date(end.getFullYear(), end.getMonth() + 1, 0);
+	}
+
+	return {
+		start: new Date(start.setHours(0,0,0)),
+		end: new Date(end.setHours(23, 59, 0))
+	};
+}
+
+// returns the monday of the week of a given date
+function getMonday(d) {
+  d = new Date(d);
+  var day = d.getDay(),
+      diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
+  return new Date(d.setDate(diff));
+}
+// returns the sunday of the week of a given date
+function getSunday(d) {
+  d = new Date(d);
+  var day = d.getDay(),
+      diff = d.getDate() + (7 - day) - (day == 0 ? 7:0); // adjust when day is sunday
+  return new Date(d.setDate(diff));
+}
+
+// checks if given date is in between given range
+function isDateInRange(date, range) {
+	return (range.start <= date && date <= range.end);
+}
+
 
 // generates color from string ===============================
 function convertTextToColor(text) {
@@ -751,6 +822,8 @@ $(document).ready(function() {
 
 	loadCategories(); // GET list with all categories
 
+	// Period Picker
+	preparePeriodPicker();
 	// Category View
 	prepareCategoryView();
 	// Calendar View
