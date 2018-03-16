@@ -5,7 +5,7 @@ MUST:
 - Month/Week/Day View
 	* füge buttons in die nav bar hinzu
 
-- Kalender fertig
+- Kalender-View fertig
 	* Interaktion
 	* Richtige Anzeige der Zahlen
 
