@@ -135,6 +135,9 @@ function loadCells(entries) {
 	cells = document.querySelectorAll(".cell");
 }
 
+function updateEntriesToShow() {
+	_entriesToShow = filterEntriesByDateRange(_entries, getRangeOfDate(_currentDate, _currentRange));
+}
 
 /*
 	========================================= CALENDAR VIEW ==========================================
@@ -149,7 +152,30 @@ function preparePeriodPicker() {
 		_entriesToShow = filterEntriesByDateRange(_entries, getRangeOfDate(_currentDate, _currentRange));
 
 		loadCells(_entriesToShow);
+		updatePeriodView();
 	};
+}
+
+function updatePeriodView() {
+	const periodView = document.querySelector("#period-view");
+
+	switch (_currentRange) {
+		case "Day":
+			periodView.textContent = formatDate(_currentDate, "MMMM d yyyy");
+			break;
+		case "Week":
+			const weekRange = getRangeOfDate(_currentDate, "Week");
+			periodView.textContent = formatDate(weekRange.start, "MMM d") + " - " + formatDate(weekRange.end, "MMM d") + ", " + _currentDate.getFullYear();
+			break;
+		case "Month":
+			periodView.textContent = formatDate(_currentDate, "MMMM yyyy");
+			break; 
+		case "Year":
+			periodView.textContent = _currentDate.getFullYear();
+			break;
+		default:
+			periodView.textContent = "All";
+	}
 }
 
 function updateCalendar() {
@@ -191,14 +217,31 @@ function updateCalendar() {
 
 	/* Selection in Calendar Field */
 
-	if (new Date(_currentMonth).getMonth() === new Date(_currentDate).getMonth()) {
+	if (_currentMonth.getMonth() === _currentDate.getMonth() && _currentMonth.getFullYear() === _currentDate.getFullYear()) {
 		const dateOfCurrentDate = new Date(_currentDate).getDate();
-		const dateFieldToSelect = document.getElementsByName(""+dateOfCurrentDate)[0];
-
-		console.log("Current date is : " + dateOfCurrentDate);
+		const dateFieldToSelect = document.getElementsByName(dateOfCurrentDate)[0];
 
 		dateFieldToSelect.className += " selected";
 	}
+
+	/* Event for Date Field */
+
+	calendarField.querySelectorAll("div").forEach(function(dateField) {
+		dateField.addEventListener("click", function() {
+			calendarField.querySelectorAll("div").forEach(function(dateField) {
+				dateField.classList.remove("selected");
+			});
+
+			const dateFieldDate = this.getAttribute("name");
+			this.className += " selected";
+
+			_currentDate = new Date(new Date(_currentMonth).getFullYear(), new Date(_currentMonth).getMonth(), dateFieldDate);
+
+			updatePeriodView();
+			updateEntriesToShow();
+			loadCells(_entriesToShow);
+		});
+	});
 
 	
 }
@@ -707,8 +750,8 @@ function loadEntries() {
 		if (request.status >= 200 && request.status < 300) {
 			_entries = JSON.parse(request.responseText); // save entries
 			sortEntriesByDate(_entries); // sort entries
-			_entriesToShow = filterEntriesByDateRange(_entries, getRangeOfDate(_currentDate, _currentRange)); // save entries to show
 
+			updateEntriesToShow();
 			loadCells(_entriesToShow);
 
 			console.log("Fetched entries successfully (loaded " + _entries.length + ")");
@@ -882,6 +925,7 @@ $(document).ready(function() {
 
 	// Period Picker
 	preparePeriodPicker();
+	updatePeriodView();
 	// Category View
 	prepareCategoryView();
 	// Calendar View

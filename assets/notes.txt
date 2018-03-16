@@ -2,10 +2,6 @@ TODO:
 
 MUST:
 
-- Kalender-View fertig
-	* Interaktion
-	* Richtige Anzeige der Zahlen
-
 - Error Handling
 	* Toast einbauen
 
