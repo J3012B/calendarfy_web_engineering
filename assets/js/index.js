@@ -17,12 +17,13 @@ var requestType = Object.freeze({"GET": "GET", "POST": "POST", "DELETE": "DELETE
 	DATA ---------------------------------------------------------------------------------------
 */
 
-var entries = []; // all entries loaded
-var entriesToShow = []; // filtered entries
-var categories = []; // all categories loaded
-var currentDate = new Date();
-var currentMonth = new Date(); // date for month shown in calendar head
+var _entries = []; // all entries loaded
+var _entriesToShow = []; // filtered entries
+var _categories = []; // all categories loaded
+var _currentDate = new Date();
+var _currentMonth = new Date(); // date for month shown in calendar head
 
+var _currentRange = "Week";
 
 /*
 	UI ---------------------------------------------------------------------------------------
@@ -50,7 +51,12 @@ var cells = [];
 // load cells into list view
 function loadCells(entries) {
 	cells = [];
-	$list.innerHTML = "";
+	$list.empty();
+
+	if (entries.length == 0) {
+		const msg = _currentRange === "All" ? "selection" : _currentRange.toLowerCase();
+		$list.append('<div id="no-entries">There are no entries for this ' + msg + '</div>');
+	}
 
 	for (var i = 0; i < entries.length; i++) {
 		var entry = entries[i];
@@ -72,11 +78,11 @@ function loadCells(entries) {
 		}
 		// Foto Buttons
 		cellTmpl.querySelector(".cell-add-foto-btn").onclick = function() {
-			var entryID = entries[getIndexOfElement(this, ".cell-add-foto-btn")];
+			var entryID = _entriesToShow[getIndexOfElement(this, ".cell-add-foto-btn")];
 			openImgModal(entryID);
 		}
 		cellTmpl.querySelector(".cell-delete-foto-btn").onclick = function() {
-			var entryID = entries[getIndexOfElement(this, ".cell-delete-foto-btn")].id;
+			var entryID = _entriesToShow[getIndexOfElement(this, ".cell-delete-foto-btn")].id;
 			deleteImageFromEntry(entryID);
 		}
 
@@ -91,7 +97,7 @@ function loadCells(entries) {
 			cellTmpl.querySelector(".cell-categories").innerHTML = '<div><i class="material-icons">assignment</i> <b>Assign categories</b></div>';
 		}
 		cellTmpl.querySelector(".cell-categories").onclick = function() {
-			var entry = entries[getIndexOfElement(this, ".cell-categories")];
+			var entry = _entriesToShow[getIndexOfElement(this, ".cell-categories")];
 
 			openCategoryModal(entry);
 		}
@@ -108,10 +114,10 @@ function loadCells(entries) {
 		}
 		cellTmpl.querySelector(".cell-delete-btn").onclick = function() {
 			var cellIndex = getIndexOfElement(this, ".cell-delete-btn");
-			deleteEntry(entries[cellIndex].id);
+			deleteEntry(_entriesToShow[cellIndex].id);
 		};
 		cellTmpl.querySelector(".cell-edit-btn").onclick = function() {
-			openModal(entries[getIndexOfElement(this, ".cell-edit-btn")]);
+			openModal(_entriesToShow[getIndexOfElement(this, ".cell-edit-btn")]);
 		}
 
 
@@ -132,26 +138,22 @@ function loadCells(entries) {
 
 function preparePeriodPicker() {
 	const periodPicker = document.querySelector("#period-picker");
+	periodPicker.value = _currentRange;
 
 	periodPicker.onchange = function() {
-		switch (this.value) {
-			case "Day":
-				entriesToShow = filterEntriesByDateRange();
-				break;
-			case "Week":
-				entriesToShow = filterEntriesByDateRange();
-				break;
-			default:
-				entriesToShow = filterEntriesByDateRange();
-		};
-		loadCells(entriesToShow);
+		_currentRange = this.value; // "Day", "Week" or "Month"
+		_entriesToShow = filterEntriesByDateRange(_entries, getRangeOfDate(_currentDate, _currentRange));
+
+		loadCells(_entriesToShow);
+
+		console.log(_entriesToShow);
 	};
 }
 
 function updateCalendarMonthLbl() {
 	var monthLbl = document.querySelector("#calendar-head div");
 
-	monthLbl.innerText = $.format.date(currentMonth, "MMMM yyyy");;
+	monthLbl.innerText = $.format.date(_currentMonth, "MMMM yyyy");;
 }
 
 /*
@@ -161,8 +163,8 @@ function updateCalendarMonthLbl() {
 function loadCategoryCells() {
 	const categoryList = document.querySelector("#category-list");
 
-	for (var i = 0; i < categories.length; i++) {
-		const category = categories[i];
+	for (var i = 0; i < _categories.length; i++) {
+		const category = _categories[i];
 		var cellTmpl = document.querySelector("#category-cell-template").content.cloneNode(true);
 
 		// cell
@@ -179,7 +181,7 @@ function loadCategoryCells() {
 		cellTmpl.querySelector(".title").textContent = category.name;
 		// delete button
 		cellTmpl.querySelector(".delete").onclick = function() {
-			const category = categories[getIndexOfElement(this, ".category-cell .delete")];
+			const category = _categories[getIndexOfElement(this, ".category-cell .delete")];
 			console.log("Will delete category with id " + category.id + "");
 			deleteCategory(category.id);
 		}
@@ -249,8 +251,8 @@ function loadCategoryModal() {
 	const catModal 	= document.querySelector("#category-modal");
 	const catList 	= catModal.querySelector(".categories");
 
-	for (var i = 0; i < categories.length; i++) {
-		const category = categories[i];
+	for (var i = 0; i < _categories.length; i++) {
+		const category = _categories[i];
 
 		const cellTmpl = document.querySelector("#cat-modal-cell-template").content.cloneNode(true);
 
@@ -274,14 +276,14 @@ function openCategoryModal(entry) {
 	catModal.style.display = "block";
 
 	// fill category modal with the entry data (true or false)
-	for (var i = 0; i < categories.length; i++) {
-		const category = categories[i];
+	for (var i = 0; i < _categories.length; i++) {
+		const category = _categories[i];
 		const checkbox = catModal.querySelectorAll('input[type="checkbox"]')[i];
 
 		checkbox.checked = false;
 
-		for (var j = 0; j < entry.categories.length; j++) {
-			if (entry.categories[j].name === category.name) {
+		for (var j = 0; j < entry._categories.length; j++) {
+			if (entry._categories[j].name === category.name) {
 				checkbox.checked = true;
 				break;
 			}
@@ -291,12 +293,12 @@ function openCategoryModal(entry) {
 	// update entry, when button is clicked
 	submitBtn.onclick = function() {
 		entry.categories = [];
-		for (var i = 0; i < categories.length; i++) {
-			const category = categories[i];
+		for (var i = 0; i < _categories.length; i++) {
+			const category = _categories[i];
 			const checkboxValue = catModal.querySelectorAll('input[type="checkbox"]')[i].checked;
 
 			if (checkboxValue != false) {
-				entry.categories.push(category);
+				entry._categories.push(category);
 			}
 		}
 
@@ -468,12 +470,12 @@ function printToast(message) {
 
 /* calendar: left arrow clicked */
 function decreaseMonth() {
-	currentMonth = new Date(currentMonth.setMonth(new Date(currentMonth.setDate(1)).getMonth() - 1));
+	_currentMonth = new Date(_currentMonth.setMonth(new Date(_currentMonth.setDate(1)).getMonth() - 1));
 	updateCalendarMonthLbl();
 }
 /* calendar: right arrow clicked */
 function increaseMonth() {
-	currentMonth = new Date(currentMonth.setMonth(new Date(currentMonth.setDate(1)).getMonth() + 1));
+	_currentMonth = new Date(_currentMonth.setMonth(new Date(_currentMonth.setDate(1)).getMonth() + 1));
 	updateCalendarMonthLbl();
 }
 
@@ -530,13 +532,13 @@ function arrayContainsItem(array, item) {
 }
 
 // returns all entries, which begin in the specified range
-function filterEntriesByDateRange(array, start, end) {
+function filterEntriesByDateRange(array, range) {
 	var result = [];
 
 	for (var i = 0; i < array.length; i++) {
 		const item = array[i];
 
-		if (something) {
+		if (isDateInRange(new Date(item.start), range)) {
 			result.push(item);
 		}
 	}
@@ -561,14 +563,22 @@ function getRangeOfDate(date, rangeName) {
 			start = getMonday(start).setHours(0, 0, 0);
 			end = getSunday(end).setHours(23, 59, 0);
 			break;
-		default:
+		case "Month":
 			start = new Date(start.getFullYear(), start.getMonth(), 1);
 			end = new Date(end.getFullYear(), end.getMonth() + 1, 0);
+			break;
+		case "Year":
+			start = new Date(start.getFullYear(), 0, 1);
+			end = new Date(end.getFullYear(), 11, 31);
+			break;
+		default:
+			start = new Date(2000, 0, 1);
+			end = new Date(3000, 0, 1);
 	}
 
 	return {
-		start: new Date(start.setHours(0,0,0)),
-		end: new Date(end.setHours(23, 59, 0))
+		start: new Date(new Date(start).setHours(0,0,0)),
+		end: new Date(new Date(end).setHours(23, 59, 0))
 	};
 }
 
@@ -648,12 +658,13 @@ function makeRequest(requestType, requestURL, callback) {
 function loadEntries() {
 	makeRequest(requestType.GET, url + "/events", function(request, event) {
 		if (request.status >= 200 && request.status < 300) {
-			entries = JSON.parse(request.responseText);
+			_entries = JSON.parse(request.responseText); // save entries
+			sortEntriesByDate(_entries); // sort entries
+			_entriesToShow = filterEntriesByDateRange(_entries, getRangeOfDate(_currentDate, _currentRange)); // save entries to show
 
-			console.log("Fetched entries successfully (loaded " + entries.length + ")");
-			sortEntriesByDate(entries);
+			loadCells(_entriesToShow);
 
-			loadCells(entries);
+			console.log("Fetched entries successfully (loaded " + _entries.length + ")");
 		} else {
 			console.warn(request.statusText, request.responseText);
 		}
@@ -748,10 +759,10 @@ function deleteImageFromEntry(entryID) {
 function loadCategories() {
 	makeRequest(requestType.GET, url + "/categories", function(request, event) {
 		if (request.status >= 200 && request.status < 300) {
-			categories = JSON.parse(request.responseText);
-			sortBy(categories, "name");
+			_categories = JSON.parse(request.responseText);
+			sortBy(_categories, "name");
 
-			console.log("Fetched categories successfully (loaded " + categories.length + ")");
+			console.log("Fetched categories successfully (loaded " + _categories.length + ")");
 			loadCategoryCells();
 			loadEntries(); // GET Event Data & create list cells
 			loadCategoryModal();
