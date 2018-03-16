@@ -23,7 +23,7 @@ var _categories = []; // all categories loaded
 var _currentDate = new Date();
 var _currentMonth = new Date(); // date for month shown in calendar head
 
-var _currentRange = "Week";
+var _currentRange = "Week"; // current range set (Day, Week, Month, Year, All)
 
 /*
 	UI ---------------------------------------------------------------------------------------
@@ -97,6 +97,10 @@ function loadCells(entries) {
 			cellTmpl.querySelector(".cell-categories").innerHTML = '<div><i class="material-icons">assignment</i> <b>Assign categories</b></div>';
 		}
 		cellTmpl.querySelector(".cell-categories").onclick = function() {
+			console.log("entries to show : " + _entriesToShow.length);
+			console.log("entry cells     : " + document.querySelectorAll(".cell-categories").length);
+			console.log("index of element: " + getIndexOfElement(this, ".cell-categories"));
+
 			var entry = _entriesToShow[getIndexOfElement(this, ".cell-categories")];
 
 			openCategoryModal(entry);
@@ -145,15 +149,13 @@ function preparePeriodPicker() {
 		_entriesToShow = filterEntriesByDateRange(_entries, getRangeOfDate(_currentDate, _currentRange));
 
 		loadCells(_entriesToShow);
-
-		console.log(_entriesToShow);
 	};
 }
 
 function updateCalendarMonthLbl() {
 	var monthLbl = document.querySelector("#calendar-head div");
 
-	monthLbl.innerText = $.format.date(_currentMonth, "MMMM yyyy");;
+	monthLbl.innerText = $.format.date(_currentMonth, "MMMM yyyy");
 }
 
 /*
@@ -189,7 +191,6 @@ function loadCategoryCells() {
 		categoryList.append(cellTmpl);
 	}
 }
-
 function prepareCategoryView() {
 	const textInput = document.querySelector("#add-category input");
 	const addBtn 	= document.querySelector("#add-category div.blue.button");
@@ -264,7 +265,6 @@ function loadCategoryModal() {
 		catList.append(cellTmpl);
 	}
 }
-
 function openCategoryModal(entry) {
 	const catModal 	= document.querySelector("#category-modal");
 	const submitBtn = catModal.querySelector(".blue.button");
@@ -282,8 +282,8 @@ function openCategoryModal(entry) {
 
 		checkbox.checked = false;
 
-		for (var j = 0; j < entry._categories.length; j++) {
-			if (entry._categories[j].name === category.name) {
+		for (var j = 0; j < entry.categories.length; j++) {
+			if (entry.categories[j].name === category.name) {
 				checkbox.checked = true;
 				break;
 			}
@@ -298,7 +298,7 @@ function openCategoryModal(entry) {
 			const checkboxValue = catModal.querySelectorAll('input[type="checkbox"]')[i].checked;
 
 			if (checkboxValue != false) {
-				entry._categories.push(category);
+				entry.categories.push(category);
 			}
 		}
 
@@ -349,7 +349,6 @@ function prepareModals() {
 	    };
 	}
 }
-
 /* prepares date fields in modal with default values */
 function prepareDateFields() {
 	var today = formatDate(new Date(), "yyyy-MM-dd"); // Today's date formatted
@@ -368,7 +367,6 @@ function prepareDateFields() {
 		dateFields[1].value = formatDate(latestDate([newStartDate, new Date(dateFields[1].value)]), "yyyy-MM-dd");
 	});
 }
-
 /* user opens modal */
 function openModal(entry) {
 	var modal = document.querySelector("#modal");
@@ -386,7 +384,6 @@ function openModal(entry) {
 	modal.style.display = "block"; // show modal
 	modal.scrollTo(0, 0);
 }
-
 /* Sets style and functionality of the (Create/Edit)-Button */
 function setModalButton(id) {
 	var modalButton = $("#modal .submit-btn");

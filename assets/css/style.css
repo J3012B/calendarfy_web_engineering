@@ -62,6 +62,7 @@ h1, h2, h3 {
 	left: 35%;
 	width: 30%;
 	min-width: 300px;
+	line-height: 43px;
 }
 #period-view {
 	float: left;
@@ -77,7 +78,18 @@ h1, h2, h3 {
 	float: left;
 	width: 35%;
 	margin-left: 5%;
-
+	background: url(../img/arrow-down.png) no-repeat right 0;
+	background-color: white; /* green */
+	background-position-y: 10px; 
+	overflow: hidden;
+	border: 0;
+	border-radius: 10px;
+	height: 53px;
+	padding: 10px;
+	font-size: 16px;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
 
