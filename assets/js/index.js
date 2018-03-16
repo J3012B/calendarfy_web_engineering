@@ -545,7 +545,15 @@ function retrieveModalData() {
 */
 
 function printToast(message) {
-	
+	var toast = document.querySelector("#toast");
+
+	toast.textContent = message;
+
+    toast.className = "show";
+    // After 3 seconds, remove the show class from DIV
+    setTimeout(function() { 
+    	toast.className = toast.className.replace("show", ""); 
+    }, 3000);
 }
 
 
@@ -782,6 +790,7 @@ function createEntry(data) {
 			window.location.reload(true);
 		} else {
 			console.warn(request.statusText, request.responseText);
+			printToast("Couldn't create a new entry: " + JSON.parse(request.responseText).description);
 		}
 	});
 	request.send(JSON.stringify(data));

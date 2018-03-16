@@ -41,3 +41,5 @@ CAN:
 - Hover Popups für die Categories in den Entry Cells
 
 - Bild zoomt wenn man in einer entry cell drüberhovert
+
+- Tool Tip, wenn man über den Kalender hovert (WÄRE ECHT COOL)
