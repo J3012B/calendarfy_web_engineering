@@ -239,12 +239,14 @@ h1, h2, h3 {
 
 
 /*
-	CALENDAR
+	======================================= CALENDAR =======================================
 */
 
 #calendar {
 	margin-bottom: 10px;
 }
+
+/* HEAD */
 
 #calendar-head {
 	background: white;
@@ -267,13 +269,19 @@ h1, h2, h3 {
 }
 #calendar-head a i: hover {
 	background: lightgray;
-} 
+}
+
+/* BODY */ 
 
 #calendar-body {
 	background: white;
 }
 #calendar-body table {
 	width: 100%;
+}
+#calendar-body table td {
+	width: 14.285%;
+	text-align: center;
 }
 
 /*

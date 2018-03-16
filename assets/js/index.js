@@ -152,10 +152,48 @@ function preparePeriodPicker() {
 	};
 }
 
-function updateCalendarMonthLbl() {
+function updateCalendar() {
 	var monthLbl = document.querySelector("#calendar-head div");
+	var calendarField = document.querySelector("#calendar-body tbody");
 
+	/* Month Label */
+	
+	// Set inner text to current month
 	monthLbl.innerText = $.format.date(_currentMonth, "MMMM yyyy");
+
+	/* Calendar Field  */
+
+	calendarField.innerHTML = "";
+	const daysInCurrentMonth = getDaysInMonth(_currentMonth.getMonth(), _currentMonth.getFullYear());
+	var weekDayOfFirst = new Date(_currentMonth.getFullYear(), _currentMonth.getMonth(), 1).getDay() - 1;
+	weekDayOfFirst = (weekDayOfFirst < 0) ? 6 : weekDayOfFirst;
+
+
+	var newTableBody = "<tr>";
+
+	console.log("Week day of first is: " + weekDayOfFirst);
+
+	for (var i = 0; i < weekDayOfFirst; i++) {
+		newTableBody += "<td></td>";
+	}
+	for(var i = 0; i < 7 - weekDayOfFirst; i++) {
+		newTableBody += "<td name=\"" + (i+1) + "\">" + (i+1) + "</td>";
+	}
+	newTableBody += "</tr>";
+
+	const offset = 7 - weekDayOfFirst;
+	for (var i = 0; i < daysInCurrentMonth - offset; i++) {
+
+		newTableBody += ((i % 7 == 0) ? "<tr>" : "");
+
+		newTableBody += ("<td name=\"" + (i+1+offset) + "\">" + (i+1+offset) + "</td>");
+
+		newTableBody += ((i % 7 == 6) ? "</tr>" : "");
+	}
+
+	calendarField.innerHTML = newTableBody;
+
+	
 }
 
 /*
@@ -468,12 +506,12 @@ function printToast(message) {
 /* calendar: left arrow clicked */
 function decreaseMonth() {
 	_currentMonth = new Date(_currentMonth.setMonth(new Date(_currentMonth.setDate(1)).getMonth() - 1));
-	updateCalendarMonthLbl();
+	updateCalendar();
 }
 /* calendar: right arrow clicked */
 function increaseMonth() {
 	_currentMonth = new Date(_currentMonth.setMonth(new Date(_currentMonth.setDate(1)).getMonth() + 1));
-	updateCalendarMonthLbl();
+	updateCalendar();
 }
 
 
@@ -598,6 +636,11 @@ function getSunday(d) {
 function isDateInRange(date, range) {
 	return (range.start <= date && date <= range.end);
 }
+
+// returns the count of days in a given month
+function getDaysInMonth(month, year) {
+	return new Date(year, month+1, 0).getDate();
+};
 
 
 // generates color from string ===============================
@@ -835,7 +878,7 @@ $(document).ready(function() {
 	// Category View
 	prepareCategoryView();
 	// Calendar View
-	updateCalendarMonthLbl();
+	updateCalendar();
 	// Modals
 	prepareModals();
 
