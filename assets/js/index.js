@@ -336,6 +336,7 @@ function openImgModal(entry) {
 		};
 		reader.onerror = function (error) {
 			console.log("Couldn't convert file to base64: ", error);
+			printToast("No file selected or bad conversion")
 			return "";
 		};
 	}

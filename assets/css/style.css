@@ -4,7 +4,7 @@ body {
 	font-family: Helvetica;
 	color: #2C3E50;
 	background-image: url("./../img/wood_wall_2.jpeg");
-	background-position: center:
+	background-position: center;
 	background-size: cover;
 	background-attachment: fixed;
 	background-repeat: repeat;
@@ -110,7 +110,7 @@ h1, h2, h3 {
 	max-width: 1000px;
 	width: 100%;
 	background: transparent;
-	float: center;
+	/*float: center;*/
 	overflow: hidden;
 }
 
@@ -118,14 +118,12 @@ h1, h2, h3 {
 	width: 61.8%;
 	float: left;
 	padding: 0 5px;
-	/*background: #EBF5FB;*/
 }
 
 #body-calendar {
 	width: 38.2%;
 	float: left;
 	padding: 0 5px;
-	/*background: #FBEEE6;*/
 }
 
 /*
@@ -154,7 +152,7 @@ h1, h2, h3 {
 	background-size:     cover;
     background-repeat:   no-repeat;
     background-position: center;
-	background-image: url("./../img/wood_wall.jpeg")/*url("https://www.st-christophers.co.uk/__data/assets/image/0005/462614/prague_hero.jpg");*/
+	background-image: url("./../img/wood_wall.jpeg");
 
 }
 
@@ -267,8 +265,8 @@ h1, h2, h3 {
 #calendar-head a:last-of-type {
 	float: right;
 }
-#calendar-head a i: hover {
-	background: lightgray;
+#calendar-head a i:hover {
+	background: #F0F0F0;
 }
 
 /* BODY */ 
