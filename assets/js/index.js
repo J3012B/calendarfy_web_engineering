@@ -770,18 +770,18 @@ function loadEntries() {
 		if (request.status >= 200 && request.status < 300) {
 			_entries = JSON.parse(request.responseText); // save entries
 			sortEntriesByDate(_entries); // sort entries
-
-			updateEntriesToShow();
+			updateEntriesToShow(); // update entries, which are displayed
 
 			console.log("Fetched entries successfully (loaded " + _entries.length + ")");
 		} else {
 			console.warn(request.statusText, request.responseText);
+			printToast("Couldn't load entries");
 		}
 	});
 }
 function deleteEntry(id) {
 	// DELETE event with specific id
-	makeRequest(requestType.DELETE, url + "/events/" + id, function(request, event) {
+	makeRequest(requestType.DELETE, url + "/eventss/" + id, function(request, event) {
 		if (request.status >= 200 && request.status < 300) {
 			console.log("Deleted event with id " + id + " successfully.");
 
@@ -792,6 +792,7 @@ function deleteEntry(id) {
 			updateEntriesToShow();
 		} else {
 			console.warn(request.statusText, request.responseText);
+			printToast("Couldn't delete entry");
 		}
 	});
 }
@@ -837,6 +838,7 @@ function updateEntry(data) {
 			hideAllModals();
 		} else {
 			console.warn(request.statusText, request.responseText);
+			printToast("Couldn't update entry");
 		}
 	});
 	request.send(JSON.stringify(data));
@@ -860,6 +862,7 @@ function addImageToEntry(encodedImage, entryID) {
 			window.location.reload(true);
 		} else {
 			console.warn(request.statusText, request.responseText);
+			printToast("Couln't add image to entry");
 		}
 	});
 	request.send(JSON.stringify(data));
@@ -877,6 +880,7 @@ function deleteImageFromEntry(entryID) {
 			window.location.reload(true);
 		} else {
 			console.warn(request.statusText, request.responseText);
+			printToast("Couln't delete image from entry");
 		}
 	});
 	request.send();
@@ -898,6 +902,7 @@ function loadCategories() {
 			loadCategoryModal();
 		} else {
 			console.warn(request.statusText, request.responseText);
+			printToast("Couln't load categories");
 		}
 	});
 }
@@ -915,6 +920,7 @@ function createCategory(name) {
 			window.location.reload(true);
 		} else {
 			console.warn(request.statusText, request.responseText);
+			printToast("Couln't create category");
 		}
 	});
 	request.send(JSON.stringify(data));
@@ -924,10 +930,10 @@ function deleteCategory(categoryID) {
 		if (request.status >= 200 && request.status < 300) {
 			console.log("Deleted category with id " + categoryID + "successfully");
 
-			
 			window.location.reload(true);
 		} else {
 			console.warn(request.statusText, request.responseText);
+			printToast("Couln't delete category");
 		}
 	});
 }
