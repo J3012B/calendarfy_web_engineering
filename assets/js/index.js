@@ -137,6 +137,7 @@ function loadCells(entries) {
 
 function updateEntriesToShow() {
 	_entriesToShow = filterEntriesByDateRange(_entries, getRangeOfDate(_currentDate, _currentRange));
+	loadCells(_entriesToShow);
 }
 
 /*
@@ -239,7 +240,6 @@ function updateCalendar() {
 
 			updatePeriodView();
 			updateEntriesToShow();
-			loadCells(_entriesToShow);
 		});
 	});
 
@@ -292,6 +292,15 @@ function prepareCategoryView() {
 /*
 	============================================ MODALS ==============================================
 */
+
+/* hides all modal windows */
+function hideAllModals() {
+	var allModals = document.querySelectorAll(".modal");
+
+	allModals.forEach(function(modal) {
+		modal.style.display = "none";
+	});
+}
 
 /*
 	IMAGE MODAL ===============================================
@@ -505,6 +514,7 @@ function fillModal(entry) {
 	$(".modal-window #start-time-field").prop('disabled', entry.allday);
 	$(".modal-window #end-time-field").prop('disabled', entry.allday);
 	$(".modal-window #allday-cb").prop('checked', entry.allday);
+	$(".modal-window #status-select").val(entry.status);
 	$(".modal-window #organizer-tf").val(entry.organizer);
 	$(".modal-window #webpage-tf").val(entry.webpage);
 	$(".modal-window #title-tf").val(entry.title);
@@ -536,6 +546,8 @@ function retrieveModalData() {
 	    "webpage": $(".modal-window #webpage-tf").val()
 	    //"imagedata": "data:application/json;base64," + convertImageToBase64(document.getElementById("image-up").files[0])
 	};
+
+	console.log("Status is: " + data.status);
 
 	return data;
 }
@@ -760,7 +772,6 @@ function loadEntries() {
 			sortEntriesByDate(_entries); // sort entries
 
 			updateEntriesToShow();
-			loadCells(_entriesToShow);
 
 			console.log("Fetched entries successfully (loaded " + _entries.length + ")");
 		} else {
@@ -773,7 +784,12 @@ function deleteEntry(id) {
 	makeRequest(requestType.DELETE, url + "/events/" + id, function(request, event) {
 		if (request.status >= 200 && request.status < 300) {
 			console.log("Deleted event with id " + id + " successfully.");
-			window.location.reload(true);
+
+			for (var i = 0; i < _entries.length; i++) {
+				if (_entries[i].id === id) 
+					_entries.splice(i, 1);
+			}
+			updateEntriesToShow();
 		} else {
 			console.warn(request.statusText, request.responseText);
 		}
@@ -787,7 +803,12 @@ function createEntry(data) {
 	request.addEventListener("load", function() {
 		if (request.status >= 200 && request.status < 300) {
 			console.log("Created new entry: \n" + request.responseText);
-			window.location.reload(true);
+
+			const newEntry = JSON.parse(request.responseText);
+			_entries.push(newEntry)
+			sortEntriesByDate(_entries);
+			updateEntriesToShow();
+			hideAllModals();
 		} else {
 			console.warn(request.statusText, request.responseText);
 			printToast("Couldn't create a new entry: " + JSON.parse(request.responseText).description);
@@ -803,7 +824,17 @@ function updateEntry(data) {
 	request.addEventListener("load", function() {
 		if (request.status >= 200 && request.status < 300) {
 			console.log("Updated entry with id " + data.id + ": \n" + request.responseText);
-			window.location.reload(true);
+			
+			const updatedEntry = JSON.parse(request.responseText);
+			for (var i = 0; i < _entries.length; i++) {
+				if (_entries[i].id === updatedEntry.id) {
+					_entries.splice(i, 1);
+				}
+			} // remove old entry
+			_entries.push(updatedEntry) // add new entry
+			sortEntriesByDate(_entries);
+			updateEntriesToShow();
+			hideAllModals();
 		} else {
 			console.warn(request.statusText, request.responseText);
 		}
@@ -892,6 +923,8 @@ function deleteCategory(categoryID) {
 	makeRequest(requestType.DELETE, url + "/categories/" + categoryID, function(request, event) {
 		if (request.status >= 200 && request.status < 300) {
 			console.log("Deleted category with id " + categoryID + "successfully");
+
+			
 			window.location.reload(true);
 		} else {
 			console.warn(request.statusText, request.responseText);
