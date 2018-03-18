@@ -11,8 +11,6 @@ MUST:
 
 SHOULD:
 
-- Validity von HTML/CSS/JS/AJAX
-
 - Floating Button und Edit Button als Div
 	-> sorgt dafür, dass die Seite nicht nach oben springt, wenn ein Modal geöffnet wird!
 
@@ -21,14 +19,6 @@ SHOULD:
 
 CAN:
 
-- Reminders?
-
-- Habe ich alle Technologien benutzt?
-
-- Source Code Qualität
-	* files modular gestalten
-	* Kommentare
 
 - Bild zoomt wenn man in einer entry cell drüberhovert
-
 - Tool Tip, wenn man über den Kalender hovert (WÄRE ECHT COOL)
